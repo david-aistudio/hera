@@ -5,6 +5,44 @@ All notable changes to Hera will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-06-13
+
+### Added
+- **Section 18: Multi-Agent Knowledge** — 10 architectural patterns from deep code study
+  - Edit Formats (Aider): SEARCH/REPLACE, not raw code
+  - Architect Pattern (Aider): cheap model plans, expensive model edits
+  - Git-Native Workflow (Aider): auto-commit, reversible changes
+  - Effect-TS Architecture (OpenCode): typed errors, dependency injection
+  - Agent-Harness Separation (OpenClaw): pure logic vs orchestration
+  - Branch Summarization (OpenClaw): compact branches independently
+  - Permission Levels (Claude Code): auto/confirm/block per tool
+  - Scout Mode (Kilo Code): explore codebase before editing
+  - Reference Guidance (Kilo Code): context-aware prompts
+  - Container Sandboxing (Codex): isolated execution
+- **Decision Framework** — 15 decision points with conditions, justification, risks, mitigation
+  - Edit format, agent architecture, git integration, permissions, context strategy
+  - Error handling, streaming, parallel tools, compaction, model selection
+  - Sandboxing, session storage, timeouts, retry strategy, logging
+- **Anti-Patterns** — 15 patterns with real failure examples, solutions, and code
+  - Raw LLM output, single agent, no version control, untyped errors
+  - Monolithic agent, linear compaction, no permissions, jump to editing
+  - Generic prompts, unsandboxed execution, no context budget, blocking tools
+  - No streaming, hardcoded provider, no user feedback
+- **Section 32: Innovation Patterns** — 13 patterns from deep code study
+  - FAST: Streaming, parallel tools, cache warming, lazy file loading
+  - SMART: Edit instructions, fuzzy match, architect+editor, linter, scout, references
+  - NOT STUPID: Self-healing, permissions, branch compaction, typed errors, auto-commit
+- **references/innovation-patterns.md** — Full innovation patterns document
+- **Multi-Provider System** — Section 11.1 completely rewritten
+  - Provider interface, built-in providers, custom providers
+  - OpenAI-compatible endpoints (Ollama, vLLM, LiteLLM)
+  - Provider registry, fallback chain, task-based routing
+  - YAML configuration
+
+### Changed
+- README.md — completely rewritten for v2.0.0
+- SKILL.md — 32 sections, 3100+ lines (was 18 sections, 1600 lines)
+
 ## [1.4.0] - 2026-06-13
 
 ### Added
