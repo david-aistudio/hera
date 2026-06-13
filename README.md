@@ -1,185 +1,223 @@
-# 🏛 Hera — AI Coding Agent Architecture Reference
-
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat-square" alt="Version">
-  <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License">
-  <img src="https://img.shields.io/badge/agents-supported-brightgreen?style=flat-square" alt="Agents">
-  <img src="https://img.shields.io/badge/stars-target-62K-yellow?style=flat-square" alt="Stars">
+  <img src="assets/hera-logo.jpg" width="280" alt="Hera — Queen of the Gods">
 </p>
 
-**Hera** is a complete architectural reference for building **production-grade AI coding agents**. Every detail is verified from the [Pi Agent](https://github.com/earendil-works/pi) source code (62K stars, TypeScript monorepo).
+<h1 align="center">𝐻𝐸𝑅𝐴</h1>
 
-Use this to build your own coding agent, understand how existing agents work internally, or extend them with new capabilities.
+<p align="center">
+  <em>Queen of the Gods · Mother of Agents · Architect of Intelligence</em>
+</p>
 
----
+<p align="center">
+  <a href="#"><img src="https://img.shields.io/badge/Version-1.0.0-1a1a2e?style=flat-square&labelColor=1a1a2e&color=d4af37" alt="Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/License-MIT-1a1a2e?style=flat-square&labelColor=1a1a2e&color=d4af37" alt="License"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Agents-18+-1a1a2e?style=flat-square&labelColor=1a1a2e&color=d4af37" alt="Agents"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Sections-19-1a1a2e?style=flat-square&labelColor=1a1a2e&color=d4af37" alt="Sections"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Lines-5000+-1a1a2e?style=flat-square&labelColor=1a1a2e&color=d4af37" alt="Lines"></a>
+</p>
 
-## 🎯 What's Inside
-
-- **18 sections** covering every aspect of agent architecture
-- **Verified from source code** — not guesswork, not documentation
-- **Implementation guide** — step-by-step build order
-- **Pitfalls & lessons** — avoid common mistakes
-- **Multi-agent support** — works with 18+ AI coding agents
-
----
-
-## 🤖 Supported Agents
-
-Hera works with all major AI coding agents:
-
-| Agent | Config File | Status |
-|---|---|---|
-| **Claude Code** | `CLAUDE.md` | ✅ |
-| **Hermes** | `~/.hermes/skills/hera/` | ✅ |
-| **OpenCode** | `AGENTS.md` | ✅ |
-| **Codex** | `AGENTS.md` | ✅ |
-| **Cursor** | `.cursor/rules/hera.mdc` | ✅ |
-| **Antigravity** | `.agents/rules/hera.md` | ✅ |
-| **Pi** | `~/.pi/agent/skills/hera/` | ✅ |
-| **Gemini** | `GEMINI.md` | ✅ |
-| **Aider** | `AGENTS.md` | ✅ |
-| **Copilot** | `~/.copilot/skills/hera/` | ✅ |
-| **Amp** | `AGENTS.md` | ✅ |
-| **Kilo** | `.kilo/skills/hera/` | ✅ |
-| **Kiro** | `.kiro/skills/hera/` | ✅ |
-| **Devin** | `~/.config/devin/skills/hera/` | ✅ |
-| **Trae** | `AGENTS.md` | ✅ |
-| **CodeBuddy** | `CODEBUDDY.md` | ✅ |
-| **OpenClaw** | `AGENTS.md` | ✅ |
-| **Factory Droid** | `AGENTS.md` | ✅ |
+<p align="center">
+  <a href="#-installation">Install</a> · <a href="#-architecture">Architecture</a> · <a href="#-supported-agents">Agents</a> · <a href="#-documentation">Docs</a>
+</p>
 
 ---
 
-## 📦 Installation
+## Ἡρα · What is Hera?
 
-### Quick Install (Recommended)
+> *"In the beginning, there was chaos. Then came Hera — and from her throne, she ordered the world of intelligence."*
+
+**Hera** is a **complete architectural reference** for building **production-grade AI coding agents**. Every line of code, every pattern, every design decision is **verified from source** — not guesswork, not documentation, but the **living blueprint** of a 62,000-star TypeScript monorepo.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                                                             │
+│   "Build not what is easy. Build what is eternal."         │
+│                                        — Hera, §16.3        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Ο Θρόνος · The Throne
+
+<p align="center">
+  <table>
+    <tr>
+      <td align="center" width="25%">
+        <strong>🏛 Agent Loop</strong><br>
+        <sub>Two-loop design<br>Steering + Follow-up</sub>
+      </td>
+      <td align="center" width="25%">
+        <strong>🌿 Session Tree</strong><br>
+        <sub>Branching, forking<br>Not linear logs</sub>
+      </td>
+      <td align="center" width="25%">
+        <strong>⚡ Compaction</strong><br>
+        <sub>Auto-summarize<br>Context management</sub>
+      </td>
+      <td align="center" width="25%">
+        <strong>🔱 Extensions</strong><br>
+        <sub>Full plugin system<br>Lifecycle hooks</sub>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" width="25%">
+        <strong>📡 Streaming</strong><br>
+        <sub>Real-time events<br>SSE + WebSocket</sub>
+      </td>
+      <td align="center" width="25%">
+        <strong>🌍 20+ Providers</strong><br>
+        <sub>OpenAI, Anthropic<br>Google, & more</sub>
+      </td>
+      <td align="center" width="25%">
+        <strong>🛡 TypeBox</strong><br>
+        <sub>Schema validation<br>Type-safe tools</sub>
+      </td>
+      <td align="center" width="25%">
+        <strong>🎯 7 Tools</strong><br>
+        <sub>read, write, edit<br>bash, grep, find, ls</sub>
+      </td>
+    </tr>
+  </table>
+</p>
+
+---
+
+## Αρχιτεκτονική · Architecture
+
+```
+                           ┌──────────────┐
+                           │  User Input  │
+                           └──────┬───────┘
+                                  │
+                           ┌──────▼───────┐
+                           │   Harness    │
+                           │   .prompt()  │
+                           └──────┬───────┘
+                                  │
+                    ┌─────────────▼─────────────┐
+                    │    executeTurn()           │
+                    │  ┌───────────────────────┐ │
+                    │  │ before_agent_start    │ │
+                    │  │ (inject messages,     │ │
+                    │  │  override prompt)     │ │
+                    │  └───────────┬───────────┘ │
+                    │              │              │
+                    │  ┌───────────▼───────────┐ │
+                    │  │     Agent Loop        │ │
+                    │  │  ┌─────────────────┐  │ │
+                    │  │  │ Outer Loop      │  │ │
+                    │  │  │ (follow-up)     │  │ │
+                    │  │  │ ┌─────────────┐ │  │ │
+                    │  │  │ │ Inner Loop  │ │  │ │
+                    │  │  │ │ (steering)  │ │  │ │
+                    │  │  │ │             │ │  │ │
+                    │  │  │ │ 1. LLM Call │ │  │ │
+                    │  │  │ │ 2. Stream   │ │  │ │
+                    │  │  │ │ 3. Tools    │ │  │ │
+                    │  │  │ │ 4. Repeat   │ │  │ │
+                    │  │  │ └─────────────┘ │  │ │
+                    │  │  └─────────────────┘  │ │
+                    │  └───────────────────────┘ │
+                    └───────────────────────────┘
+```
+
+---
+
+## Υποστηριζόμενοι Πράκτορες · Supported Agents
+
+<p align="center">
+  <table>
+    <tr>
+      <th>Agent</th>
+      <th>Config</th>
+      <th>Status</th>
+    </tr>
+    <tr><td>Claude Code</td><td><code>CLAUDE.md</code></td><td>✅</td></tr>
+    <tr><td>Hermes</td><td><code>~/.hermes/skills/hera/</code></td><td>✅</td></tr>
+    <tr><td>OpenCode</td><td><code>AGENTS.md</code></td><td>✅</td></tr>
+    <tr><td>Codex</td><td><code>AGENTS.md</code></td><td>✅</td></tr>
+    <tr><td>Cursor</td><td><code>.cursor/rules/hera.mdc</code></td><td>✅</td></tr>
+    <tr><td>Antigravity</td><td><code>.agents/rules/</code></td><td>✅</td></tr>
+    <tr><td>Pi</td><td><code>~/.pi/agent/skills/hera/</code></td><td>✅</td></tr>
+    <tr><td>Gemini</td><td><code>GEMINI.md</code></td><td>✅</td></tr>
+    <tr><td>Aider</td><td><code>AGENTS.md</code></td><td>✅</td></tr>
+    <tr><td>Copilot</td><td><code>~/.copilot/skills/</code></td><td>✅</td></tr>
+    <tr><td>Amp</td><td><code>AGENTS.md</code></td><td>✅</td></tr>
+    <tr><td>Kilo</td><td><code>.kilo/skills/</code></td><td>✅</td></tr>
+    <tr><td>Kiro</td><td><code>.kiro/skills/</code></td><td>✅</td></tr>
+    <tr><td>Devin</td><td><code>~/.config/devin/skills/</code></td><td>✅</td></tr>
+    <tr><td>Trae</td><td><code>AGENTS.md</code></td><td>✅</td></tr>
+    <tr><td>CodeBuddy</td><td><code>CODEBUDDY.md</code></td><td>✅</td></tr>
+    <tr><td>OpenClaw</td><td><code>AGENTS.md</code></td><td>✅</td></tr>
+    <tr><td>Factory Droid</td><td><code>AGENTS.md</code></td><td>✅</td></tr>
+  </table>
+</p>
+
+---
+
+## Εγκατάσταση · Installation
 
 ```bash
-# Clone the repo
+# Clone the throne
 git clone https://github.com/david-aistudio/hera.git
 cd hera
 
 # Install for your agent
-./install.sh <agent-name>
+./install.sh claude        # Claude Code
+./install.sh hermes        # Hermes Agent
+./install.sh opencode      # OpenCode
+./install.sh cursor        # Cursor
+./install.sh all           # All detected agents
 ```
-
-### Supported Agent Names
-
-```bash
-./install.sh claude      # Claude Code
-./install.sh hermes      # Hermes Agent
-./install.sh opencode    # OpenCode
-./install.sh codex       # Codex
-./install.sh cursor      # Cursor
-./install.sh antigravity # Google Antigravity
-./install.sh pi          # Pi coding agent
-./install.sh gemini      # Gemini CLI
-./install.sh aider       # Aider
-./install.sh copilot     # GitHub Copilot CLI
-./install.sh amp         # Amp
-./install.sh kilo        # Kilo Code
-./install.sh kiro        # Kiro
-./install.sh devin       # Devin CLI
-./install.sh trae        # Trae
-./install.sh codebuddy   # CodeBuddy
-./install.sh claw        # OpenClaw
-./install.sh droid       # Factory Droid
-./install.sh all         # Install for all detected agents
-```
-
-### Manual Installation
-
-1. Copy `SKILL.md` to your agent's skill/config directory
-2. Copy `AGENTS.md` to your project root (if supported)
-3. Copy agent-specific configs (see table above)
 
 ---
 
-## 📖 Documentation
+## Τεκμηρίωση · Documentation
+
+### The 19 Sacred Sections
+
+| § | Section | What You Learn |
+|---|---------|----------------|
+| I | **Package Structure** | 4 packages, dependency flow |
+| II | **Core Types** | AgentMessage, AgentState, AgentTool, AgentEvent |
+| III | **Agent Loop** | Two-loop design, streaming, tool execution |
+| IV | **Agent Class** | Stateful wrapper, queueing, lifecycle |
+| V | **Agent Harness** | Orchestration, hooks, turn execution |
+| VI | **Session System** | Tree-based storage, branching |
+| VII | **Compaction** | Auto-summarize old messages |
+| VIII | **Message Conversion** | convertToLlm, custom types |
+| IX | **Tool System** | 7 built-in tools, factory pattern |
+| X | **Extension System** | Full plugin system, UI, events |
+| XI | **AI Layer** | 20+ providers, streaming |
+| XII | **System Prompt** | Structure, context, skills |
+| XIII | **Skills & Templates** | Loading, format, invocation |
+| XIV | **Event Architecture** | Full event flow diagram |
+| XV | **Design Patterns** | 8 patterns explained |
+| XVI | **Implementation Guide** | Step-by-step build order |
+| XVII | **Pitfalls** | 8 critical gotchas |
+| XVIII | **File Reference** | All source files |
+| XIX | **Comparison** | Hera vs other agents |
 
 ### Quick Start
 
 ```
-Read SKILL.md sections 1-6 for the core architecture.
-Read sections 7-13 for advanced features.
-Read section 16 for the implementation guide.
-```
-
-### Full Table of Contents
-
-1. **Package Structure** — 4 packages, dependency flow
-2. **Core Types** — AgentMessage, AgentState, AgentTool, AgentEvent
-3. **Agent Loop** — Two-loop design, streaming flow, tool execution
-4. **Agent Class** — Stateful wrapper, queueing, lifecycle
-5. **Agent Harness** — Orchestration, hooks, turn execution
-6. **Session System** — Tree-based storage, branching, context building
-7. **Compaction System** — Auto-summarize, settings, flow
-8. **Message Conversion** — convertToLlm, custom message types
-9. **Tool System** — 7 built-in tools, factory pattern
-10. **Extension System** — Full plugin system, UI context, events
-11. **AI Layer** — 20+ providers, streaming, EventStream
-12. **System Prompt** — Structure, context files, skills injection
-13. **Skills & Templates** — Loading, format, invocation
-14. **Event-Driven Architecture** — Full event flow diagram
-15. **Key Design Patterns** — 8 patterns explained
-16. **Implementation Guide** — Step-by-step build order
-17. **Pitfalls & Lessons** — 8 critical gotchas
-18. **File Reference** — All source files with line counts
-19. **Comparison** — Hera vs other agents
-
----
-
-## 🏗 Architecture Overview
-
-```
-User Input
-  ↓
-AgentHarness.prompt()
-  ↓
-AgentHarness.executeTurn()
-  ↓
-runAgentLoop()
-  ├── emit: agent_start
-  ├── emit: turn_start
-  ├── emit: message_start (user message)
-  ├── emit: message_end (user message)
-  │
-  ├── [LLM Call]
-  │   ├── emit: message_start (assistant partial)
-  │   ├── emit: message_update (text_delta, toolcall_delta, etc.)
-  │   └── emit: message_end (assistant final)
-  │
-  ├── [Tool Execution]
-  │   ├── emit: tool_execution_start
-  │   ├── emit: tool_execution_update (partial)
-  │   ├── emit: tool_execution_end
-  │   └── emit: message_end (tool result)
-  │
-  ├── emit: turn_end
-  │
-  └── emit: agent_end
+§1-6   → Core architecture (must read)
+§7-13  → Advanced features
+§14-15 → Patterns & events
+§16    → Build your own agent
+§17    → Avoid mistakes
+§18-19 → Reference & comparison
 ```
 
 ---
 
-## 🔑 Key Design Patterns
+## Σύγκριση · Comparison
 
-1. **Immutable Snapshots** — Context is sliced/copied before each turn
-2. **Queue-Based Steering** — Inject messages without interrupting agent
-3. **Tree-Based Sessions** — Not linear log, but tree with branching
-4. **Compaction** — Auto-summarize old messages
-5. **TypeBox Schemas** — Tool parameters validated via TypeBox
-6. **Provider Abstraction** — Same API for 20+ LLM providers
-7. **Extension System** — Full plugin system with lifecycle hooks
-8. **Declaration Merging** — Custom message types via TypeScript
-
----
-
-## 🆚 Comparison
-
-| Feature | Hera (Pi) | Claude Code | OpenCode | Cursor | Codex |
+| Feature | **Hera** | Claude Code | OpenCode | Cursor | Codex |
 |---|---|---|---|---|---|
-| **Agent Loop** | Two-loop | Single loop | Single loop | Single loop | Single loop |
+| **Agent Loop** | Two-loop | Single | Single | Single | Single |
 | **Session** | Tree-based | Linear | SQLite | Linear | Linear |
 | **Compaction** | Built-in | Manual | Manual | Manual | Manual |
 | **Extensions** | Full plugin | Hooks | Plugins | Rules | Rules |
@@ -189,42 +227,80 @@ runAgentLoop()
 
 ---
 
-## 📊 Stats
+## Σχεδιαστικά Μοτίβα · Design Patterns
 
-- **18 sections** of architecture documentation
-- **5000+ lines** of verified technical content
-- **20+ LLM providers** supported
-- **18 AI agents** supported
-- **8 design patterns** documented
-- **8 pitfalls** identified and explained
-
----
-
-## 🤝 Contributing
-
-Contributions welcome! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) first.
-
----
-
-## 📄 License
-
-MIT License — see [LICENSE](LICENSE) for details.
+```
+╔══════════════════════════════════════════════════════════╗
+║  1. Immutable Snapshots     → Slice/copy before turn    ║
+║  2. Queue-Based Steering    → Inject without interrupt  ║
+║  3. Tree-Based Sessions     → Branch, fork, navigate    ║
+║  4. Compaction              → Auto-summarize old msgs   ║
+║  5. TypeBox Schemas         → Type-safe tool params     ║
+║  6. Provider Abstraction    → Same API, 20+ providers   ║
+║  7. Extension System        → Full plugin lifecycle     ║
+║  8. Declaration Merging     → Custom types, no modify   ║
+╚══════════════════════════════════════════════════════════╝
+```
 
 ---
 
-## 🙏 Acknowledgments
+## Κρίσιμα Αναλλοίωτα · Critical Invariants
 
-- [Pi Agent](https://github.com/earendil-works/pi) — Architecture reference (62K stars)
-- [Graphify](https://github.com/safishamsi/graphify) — Code analysis tool
+```
+┌────────────────────────────────────────────────────────────┐
+│  I.   convertToLlm must NEVER throw — safe fallback       │
+│  II.  Context snapshots must be IMMUTABLE — always copy   │
+│  III. Tool execution must respect ABORT SIGNAL             │
+│  IV.  Events emitted IN ORDER — listeners await sequentially│
+│  V.   Session writes are BATCHED — flushed at turn_end    │
+│  VI.  Queue drain respects QUEUE MODE                      │
+│  VII. Compaction preserves RECENT CONTEXT                  │
+│  VIII.Tool termination requires ALL results true           │
+└────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Αριθμοί · Stats
+
+<p align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>18</strong><br><sub>Sections</sub></td>
+      <td align="center"><strong>5000+</strong><br><sub>Lines</sub></td>
+      <td align="center"><strong>20+</strong><br><sub>Providers</sub></td>
+      <td align="center"><strong>18</strong><br><sub>Agents</sub></td>
+      <td align="center"><strong>8</strong><br><sub>Patterns</sub></td>
+      <td align="center"><strong>8</strong><br><sub>Pitfalls</sub></td>
+      <td align="center"><strong>7</strong><br><sub>Tools</sub></td>
+      <td align="center"><strong>748</strong><br><sub>Core Loop Lines</sub></td>
+    </tr>
+  </table>
+</p>
+
+---
+
+## Ευγνωμοσύνη · Acknowledgments
+
+- [**Pi Agent**](https://github.com/earendil-works/pi) — Architecture reference (62K stars)
+- [**Graphify**](https://github.com/safishamsi/graphify) — Code analysis tool
 - All AI coding agents that inspired this project
 
 ---
 
-## ⭐ Star History
+## Άδεια · License
 
-If you find Hera useful, please star this repo! It helps others discover it.
+**MIT License** — See [LICENSE](LICENSE) for details.
 
 ---
+
+<p align="center">
+  <img src="assets/hera-logo.jpg" width="120" alt="Hera">
+</p>
+
+<p align="center">
+  <em>"From chaos, order. From code, intelligence. From Hera, architecture."</em>
+</p>
 
 <p align="center">
   <b>Built with ❤️ by <a href="https://github.com/david-aistudio">david-aistudio</a></b>
