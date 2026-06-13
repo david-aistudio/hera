@@ -5,6 +5,29 @@ All notable changes to Hera will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-06-13
+
+### Added
+- CLI tools (section 28):
+  - `hera init` — Scaffold a new agent project with interactive setup
+  - `hera validate` — Validate implementation against 11 categories
+- Example agent (section 29):
+  - Complete working agent in `examples/full-agent/`
+  - Demonstrates all patterns: agent loop, tools, session, extensions, providers
+  - Includes test suite (unit, integration, E2E)
+- DEPLOYMENT.md (section 30):
+  - Local deployment (CLI, background service, systemd)
+  - Docker deployment (Dockerfile, docker-compose)
+  - Cloud deployment (Railway, Render, Fly.io, AWS Lambda, Vercel)
+  - Configuration, monitoring, scaling guides
+- GitHub Actions (section 31):
+  - `.github/actions/validate/action.yml` for CI/CD integration
+  - Automated validation on pull requests
+
+### Changed
+- SKILL.md — added sections 28-31
+- README.md — updated to 31 sections
+
 ## [1.2.0] - 2026-06-13
 
 ### Added

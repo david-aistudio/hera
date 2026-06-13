@@ -99,6 +99,10 @@ The main reference is in **SKILL.md** (40KB+, 23 sections):
 | 25 | **Security Patterns** | Tool sandboxing, permissions, input/output sanitization, API key security |
 | 26 | **Error Handling** | Retry, graceful degradation, error propagation, recovery patterns |
 | 27 | **Testing Patterns** | Unit tests, integration tests, mocks, fixtures, E2E tests |
+| 28 | **CLI Tools** | `hera init` (scaffold) and `hera validate` (verify implementation) |
+| 29 | **Example Agent** | Complete working agent demonstrating all patterns |
+| 30 | **Deployment** | Local, Docker, cloud deployment guides with monitoring and scaling |
+| 31 | **GitHub Actions** | CI/CD integration for automated validation |
 
 ---
 

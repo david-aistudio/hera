@@ -1496,3 +1496,105 @@ See [TESTING.md](TESTING.md) for detailed testing patterns:
 - Mock patterns (LLM provider, tools, session storage)
 - Test fixtures (sample conversations, tool results)
 - E2E tests (full conversation flow, error recovery)
+
+---
+
+## 28. CLI TOOLS
+
+See `cli/` directory for command-line tools:
+
+| Tool | File | Purpose |
+|---|---|---|
+| `hera init` | `cli/hera-init.ts` | Scaffold a new agent project |
+| `hera validate` | `cli/hera-validate.ts` | Validate implementation against Hera architecture |
+
+### hera init
+
+```bash
+hera init my-agent
+```
+
+Creates a new project with:
+- Agent loop, tools, session, provider, harness, extension
+- Test suite (unit, integration, E2E)
+- AGENTS.md with Hera Framework
+- package.json, tsconfig.json, vitest.config.ts
+- .env.example with required variables
+
+### hera validate
+
+```bash
+hera validate ./src
+```
+
+Validates implementation against 11 categories:
+- Core Architecture
+- Message System
+- Tool System
+- Session System
+- Queue System
+- Compaction
+- Extension System
+- AI Layer
+- System Prompt
+- Error Handling
+- Security
+
+---
+
+## 29. EXAMPLE AGENT
+
+See `examples/full-agent/` for a complete, working agent that demonstrates all patterns:
+
+```
+examples/full-agent/
+├── src/
+│   ├── agent/          ← Agent loop and agent class
+│   ├── tools/          ← Tool implementations (read, write, bash)
+│   ├── session/        ← Tree-based session storage
+│   ├── extensions/     ← Extension system (logging, security)
+│   ├── providers/      ← LLM provider (simulated OpenAI)
+│   └── index.ts        ← Entry point
+├── tests/              ← Test suite
+├── AGENTS.md           ← Hera Framework
+├── package.json        ← Dependencies
+└── README.md           ← Documentation
+```
+
+Features demonstrated:
+- Two-loop agent loop
+- Tree-based session with branching
+- Tool execution (read, write, bash)
+- Extension system (logging, security)
+- Error handling
+- AbortSignal support
+
+---
+
+## 30. DEPLOYMENT
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for deployment guides:
+
+- Local deployment (CLI, background service, systemd)
+- Docker deployment (Dockerfile, docker-compose)
+- Cloud deployment (Railway, Render, Fly.io, AWS Lambda, Vercel)
+- Configuration (env vars, API keys, rate limiting)
+- Monitoring (logging, metrics, error tracking, cost tracking)
+- Scaling (horizontal scaling, session persistence, load balancing)
+
+---
+
+## 31. GITHUB ACTIONS
+
+See `.github/actions/validate/` for CI/CD integration:
+
+```yaml
+- name: Validate Agent
+  uses: david-aistudio/hera/.github/actions/validate@main
+  with:
+    directory: './src'
+```
+
+Outputs:
+- `score`: Validation score (0-100)
+- `passed`: Whether validation passed (score >= 80)
