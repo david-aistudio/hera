@@ -89,7 +89,22 @@ export interface AccountState {
 export interface ProviderState {
   config: ProviderConfig;
   accounts: AccountState[];
-  cursor: number; // round-robin pointer
+  cursor: number;
+  models?: ModelEntry[];  // optional, populated by registerModel or fetchLiveModels
+}
+
+export interface ModelEntry {
+  id: string;
+  name: string;
+  type?: "llm" | "chat" | "embedding" | "image" | "tts" | "stt" | "video" | "music";
+  capabilities?: string[];
+  params?: string[];
+  targetFormat?: string;       // override format translator (e.g. "claude" for Xiaomi MiMo on OpenAI provider)
+  upstreamModelId?: string;    // actual ID sent to upstream
+  quotaFamily?: "normal" | "review";
+  strip?: ("image" | "audio")[];  // content types to strip before sending
+  thinking?: boolean;
+  contextLength?: number;
 }
 
 // === Format translator registry ===
@@ -370,11 +385,75 @@ export class MultiProviderRouter {
       const toOpenAI = requestRegistry.get(`${sourceFormat}:${FORMATS.OPENAI}`);
       if (toOpenAI) result = toOpenAI(model, body, credentials);
     }
+    // Step 2: openai -> target (if target != openai)
     if (targetFormat !== FORMATS.OPENAI) {
       const fromOpenAI = requestRegistry.get(`${FORMATS.OPENAI}:${targetFormat}`);
       if (fromOpenAI) result = fromOpenAI(model, result as ChatRequest, credentials);
     }
     return result;
+  }
+
+  // --- Model registry ---
+  registerModel(providerId: string, entry: ModelEntry): void {
+    const state = this.providers.get(providerId);
+    if (!state) throw new Error(`Unknown provider: ${providerId}`);
+    if (!state.models) state.models = [];
+    // Replace if same id exists
+    const existingIdx = state.models.findIndex((m) => m.id === entry.id);
+    if (existingIdx >= 0) state.models[existingIdx] = entry;
+    else state.models.push(entry);
+  }
+
+  getProviderModels(providerId: string): ModelEntry[] {
+    return this.providers.get(providerId)?.models ?? [];
+  }
+
+  getDefaultModel(providerId: string): string | null {
+    const models = this.getProviderModels(providerId);
+    return models[0]?.id ?? null;
+  }
+
+  isValidModel(providerId: string, modelId: string, passthrough = false): boolean {
+    if (passthrough) return true;
+    return this.getProviderModels(providerId).some((m) => m.id === modelId);
+  }
+
+  getModelEntry(providerId: string, modelId: string): ModelEntry | null {
+    return this.getProviderModels(providerId).find((m) => m.id === modelId) ?? null;
+  }
+
+  getModelTargetFormat(providerId: string, modelId: string): FormatId | string | null {
+    return this.getModelEntry(providerId, modelId)?.targetFormat ?? null;
+  }
+
+  getModelUpstreamId(providerId: string, modelId: string): string {
+    return this.getModelEntry(providerId, modelId)?.upstreamModelId ?? modelId;
+  }
+
+  getModelStrip(providerId: string, modelId: string): ("image" | "audio")[] {
+    return this.getModelEntry(providerId, modelId)?.strip ?? [];
+  }
+
+  // --- Live model fetching (provider's /v1/models endpoint) ---
+  async fetchLiveModels(providerId: string, opts?: { baseUrl?: string; apiKey?: string }): Promise<ModelEntry[]> {
+    const state = this.providers.get(providerId);
+    if (!state) throw new Error(`Unknown provider: ${providerId}`);
+    const baseUrl = (opts?.baseUrl ?? state.config.baseUrl).replace(/\/chat\/completions$|\/messages$/, "");
+    const apiKey = opts?.apiKey ?? state.accounts[0]?.apiKey ?? "";
+    const headers: Record<string, string> = { ...state.config.headers };
+    if (apiKey && !state.config.noAuth) {
+      const authHeader = state.config.authHeader ?? "Authorization";
+      headers[authHeader] = state.config.authHeader ? apiKey : `Bearer ${apiKey}`;
+    }
+    const res = await fetch(`${baseUrl}/models`, { headers });
+    if (!res.ok) return [];
+    const data = (await res.json()) as { data?: unknown[]; models?: unknown[] };
+    const arr = (data.data ?? data.models ?? []) as Array<{ id: string; name?: string }>;
+    return arr.map((m) => ({
+      id: m.id,
+      name: m.name ?? m.id,
+      type: m.id.includes("embed") ? "embedding" : m.id.includes("dall-e") || m.id.includes("image") ? "image" : "llm",
+    }));
   }
 
   // --- Main chat method ---

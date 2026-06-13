@@ -250,7 +250,7 @@ function filterAvailableAccounts(accounts, now) {
 }
 ```
 
-## Antigravity wrapper (special case)
+**Antigravity wrapper (special case)**
 
 Antigravity uses Gemini CLI format wrapped in a Cloud Code envelope with **double system prompt injection**:
 
@@ -280,6 +280,16 @@ function wrapInCloudCodeEnvelope(model, geminiCLI, credentials, isAntigravity) {
 ```
 
 **Why double-inject?** It's a guardrail pattern — if user supplies a system prompt that tries to override the default, the second injection (in `[ignore]` tags) makes the model ignore the override.
+
+**Actual Antigravity models** (extracted from `open-sse/config/providerModels.js` alias `ag`):
+- Gemini 3.5 Flash (High / Medium / Low) — `gemini-3-flash-agent`, `gemini-3.5-flash-low`, `gemini-3.5-flash-extra-low`
+- Gemini 3.1 Pro (High / Low) — `gemini-pro-agent`, `gemini-3.1-pro-low`
+- Claude Sonnet 4.6 (Thinking) — `claude-sonnet-4-6`
+- Claude Opus 4.6 (Thinking) — `claude-opus-4-6-thinking`
+- GPT-OSS 120B (Medium) — `gpt-oss-120b-medium`
+- Gemini 3 Flash (command model, thinking disabled) — `gemini-3-flash`
+
+**Notably absent:** Claude Sonnet 3.5. Antigravity is a Google product, so it primarily exposes Google models (Gemini family) and select Claude models via Vertex (Sonnet 4.6, Opus 4.6 — both with thinking enabled). For Claude Sonnet 3.5, use the `anthropic` provider (API key) or the `claude` (OAuth) provider.
 
 ## Provider catalog (100+ providers)
 
