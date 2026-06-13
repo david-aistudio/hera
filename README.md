@@ -9,10 +9,39 @@
 </p>
 
 <p align="center">
-  <a href="#"><img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat-square" alt="Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/version-1.3.0-blue?style=flat-square" alt="Version"></a>
   <a href="#"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License"></a>
   <a href="#"><img src="https://img.shields.io/badge/agents-18+-brightgreen?style=flat-square" alt="Agents"></a>
+  <a href="#"><img src="https://img.shields.io/badge/sections-31-purple?style=flat-square" alt="Sections"></a>
+  <a href="#"><img src="https://img.shields.io/badge/templates-6-orange?style=flat-square" alt="Templates"></a>
 </p>
+
+<p align="center">
+  <a href="#quick-start">Quick Start</a> · <a href="#installation">Install</a> · <a href="#architecture">Architecture</a> · <a href="#supported-agents">Agents</a> · <a href="#documentation">Docs</a>
+</p>
+
+---
+
+## Quick Start (30 seconds)
+
+```bash
+# 1. Clone
+git clone https://github.com/david-aistudio/hera.git && cd hera
+
+# 2. Install for your agent
+./install.sh claude        # or hermes, opencode, cursor, etc.
+
+# 3. Read the architecture
+cat SKILL.md               # 31 sections, 1600+ lines
+```
+
+**What you get:**
+- Complete architecture reference (verified from 62K star codebase)
+- 6 code templates (copy-paste ready)
+- Validation checklist (50+ checks)
+- Security, error handling, testing patterns
+- Deployment guide (local, Docker, cloud)
+- CLI tools (`hera init`, `hera validate`)
 
 ---
 
