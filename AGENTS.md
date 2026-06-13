@@ -50,14 +50,21 @@ hera/
 **`references/multi-provider-routing.md`** (9router multi-provider/OAuth/format-translator catalog — added 2026-06-13),
 **`references/provider-model-catalog.md`** (9router 7-category provider classification + 10 service kinds + model metadata schema + real per-provider model lists — added 2026-06-13)
 
-### Code Templates (18 files, 9 TypeScript + 9 Python)
+### Code Templates (24 files, 12 TypeScript + 12 Python)
 
 `templates/minimal-agent-loop.ts`, `templates/minimal-harness.ts`,
 `templates/minimal-session.ts`, `templates/minimal-tool.ts`,
 `templates/minimal-extension.ts`, `templates/minimal-provider.ts`,
 **`templates/minimal-provider-fallback.ts`** (with retry — added 2026-06-13),
 **`templates/minimal-streaming.ts`** (AsyncIterable streaming — added 2026-06-13),
-**`templates/multi-provider-router.ts`** (100+ provider catalog + format translators + OAuth — added 2026-06-13)
+**`templates/multi-provider-router.ts`** (100+ provider catalog + format translators + OAuth — added 2026-06-13),
+**`templates/multimodal-input.ts`** (image/audio/file content across OpenAI/Claude/Gemini/Responses — added 2026-06-13),
+**`templates/tts-provider.ts`** (10+ TTS providers: OpenAI, ElevenLabs, Cartesia, PlayHT, Inworld, Deepgram, Edge, Google, MiMo — added 2026-06-13),
+**`templates/stt-provider.ts`** (8+ STT providers: Whisper, Groq, Deepgram, AssemblyAI, NVIDIA, Gemini, HF — added 2026-06-13),
+**`templates/image-provider.ts`** (12+ image providers: DALL-E, Nano Banana, FLUX, Stability, BFL, Recraft, Runway, ComfyUI, SDWebUI, HF, Vertex — added 2026-06-13),
+**`templates/web-search.ts`** (9+ search providers: Tavily, Brave, Serper, Exa, SearXNG, Google PSE, Linkup, SearchAPI, You.com — added 2026-06-13),
+**`templates/web-fetch.ts`** (4+ fetch providers: Firecrawl, Jina, Exa, Tavily — added 2026-06-13),
+**`templates/embedding-provider.ts`** (11+ embedding providers: OpenAI, Voyage, Mistral, Jina, Cohere, Together, Nebius, SiliconFlow, Fireworks, HF, Gemini — added 2026-06-13)
 
 Python equivalents in `templates/python/` (`minimal_agent_loop.py` etc.)
 **`templates/multi-provider-router.py`** (Python equivalent — added 2026-06-13)
