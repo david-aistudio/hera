@@ -24,7 +24,11 @@ Thumbs.db
 # Build
 dist/
 build/
+coverage/
 
 # Temp
 tmp/
 temp/
+
+# Graphify knowledge graph (regenerable, ephemeral)
+.graphify/

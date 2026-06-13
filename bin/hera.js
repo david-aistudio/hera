@@ -330,11 +330,7 @@ async function main() {
 
   const args = process.argv.slice(2);
 
-  if (args.includes('--help') || args.includes('-h')) {
-    showHelp();
-    return;
-  }
-
+  // Check for subcommand dispatch FIRST (so `graph --help` works)
   if (args[0] === 'graph') {
     // Delegate to hera-graph subcommand
     try {
@@ -344,6 +340,11 @@ async function main() {
     } catch (err) {
       process.exit(1);
     }
+    return;
+  }
+
+  if (args.includes('--help') || args.includes('-h')) {
+    showHelp();
     return;
   }
 

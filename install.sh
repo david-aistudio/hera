@@ -7,6 +7,8 @@ set -e
 REPO_URL="https://github.com/david-aistudio/hera.git"
 RAW_URL="https://raw.githubusercontent.com/david-aistudio/hera/main"
 TEMP_DIR=$(mktemp -d)
+# Clean up TEMP_DIR on exit (success or failure)
+trap 'rm -rf "$TEMP_DIR"' EXIT
 
 # Colors
 RED='\033[0;31m'
@@ -86,7 +88,13 @@ detect_agent() {
 download_file() {
     local file_path="$1"
     local target_path="$2"
-    curl -sSL "${RAW_URL}/${file_path}" -o "$target_path" 2>/dev/null
+    local tmp_file="${TEMP_DIR}/$(basename "$file_path")"
+    # Use temp file so partial downloads don't leave a corrupt file in place
+    if ! curl -fsSL "${RAW_URL}/${file_path}" -o "$tmp_file" 2>/dev/null; then
+        print_error "Failed to download ${file_path}"
+        return 1
+    fi
+    mv "$tmp_file" "$target_path"
 }
 
 # Install for specific agent
@@ -169,8 +177,8 @@ install_for_agent() {
             ;;
         all)
             print_info "Installing for all agents..."
-            for a in claude hermes opencode cursor antigravity pi gemini copilot kilo kiro devin codebuddy; do
-                install_for_agent "$a" 2>/dev/null || true
+            for a in claude hermes opencode codex cursor antigravity pi gemini copilot kilo kiro devin codebuddy aider amp trae claw droid; do
+                install_for_agent "$a" 2>/dev/null || print_warning "Skipped $a"
             done
             print_success "Installed for all agents!"
             ;;

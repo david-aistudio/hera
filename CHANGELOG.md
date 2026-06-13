@@ -2,8 +2,38 @@
 
 All notable changes to Hera will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [2.7.3] - 2026-06-13
+
+### Added
+- **Real test suite with Vitest** — 46 tests across 3 files
+  - `tests/lib/hera-checks.test.ts` — 23 unit tests for the 6 architectural check categories
+  - `tests/lib/hera-validator.test.ts` — 9 integration tests for `getSourceFiles` and `validateProject`
+  - `tests/cli.test.ts` — 14 CLI integration tests for `bin/hera.js`, `cli/hera-graph.ts`, `cli/hera-validate.ts`
+- **`lib/hera-checks.ts`** — extracted pure check functions (testable in isolation)
+- **`lib/hera-validator.ts`** — extracted `validateProject()` and `getSourceFiles()` from the CLI
+- **`vitest.config.ts`** — minimal Vitest config (Node env, 30s timeout)
+- **`tsconfig.json`** — ES2022 + bundler resolution, used by Vitest and editor tooling
+- **CI `test` job** — runs `npm test` on every push and PR
+
+### Changed
+- **`cli/hera-validate.ts`** — refactored from 374 lines into a thin CLI wrapper that imports from `lib/hera-validator.js`
+- **`bin/hera.js`** — subcommand dispatch now happens BEFORE the `--help` check, so `npx hera-agent graph --help` correctly delegates
+- **`install.sh`** bug fixes:
+  - `trap 'rm -rf "$TEMP_DIR"' EXIT` cleans up temp dir (was leaking)
+  - `download_file` uses `curl -fSL` and atomic `mv` from a temp file (partial downloads no longer corrupt target)
+  - `all` mode now installs all 18 agents (was silently skipping codex, aider, amp, trae, claw, droid)
+- **`package.json`** scripts: `test` → `vitest run`; added `test:watch`, `test:ui`, `typecheck`, `validate`
+- **`package.json`** devDependencies: `vitest@^3`, `typescript@^5.7`, `@types/node@^22`, `tsx@^4.19`
+
+### Fixed
+- **Real bug in check pattern**: `Sequential execution support` used `code.includes("for...of")` (3 dots) which never matches valid JS. Replaced with regex `/\bfor\b.*\bof\b/`.
+- **Dispatcher order bug**: `npx hera-agent graph --help` was printing the installer's help instead of delegating to hera-graph.
+
+### Notes
+- Tests run in ~6 seconds; CI uses Node 22 (matches `.nvmrc`).
 
 ## [2.7.2] - 2026-06-13
 
