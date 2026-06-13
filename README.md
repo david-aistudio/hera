@@ -5,15 +5,17 @@
 <h1 align="center">HERA</h1>
 
 <p align="center">
-  Complete architecture reference for building production-grade AI coding agents.
+  The most comprehensive architectural reference for building production-grade AI coding agents. Verified from 9 open-source codebases with 770K+ combined GitHub stars.
 </p>
 
 <p align="center">
-  <a href="#"><img src="https://img.shields.io/badge/version-1.3.0-blue?style=flat-square" alt="Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/version-2.4.0-blue?style=flat-square" alt="Version"></a>
   <a href="#"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License"></a>
   <a href="#"><img src="https://img.shields.io/badge/agents-18+-brightgreen?style=flat-square" alt="Agents"></a>
-  <a href="#"><img src="https://img.shields.io/badge/sections-31-purple?style=flat-square" alt="Sections"></a>
-  <a href="#"><img src="https://img.shields.io/badge/templates-6-orange?style=flat-square" alt="Templates"></a>
+  <a href="#"><img src="https://img.shields.io/badge/sections-32-purple?style=flat-square" alt="Sections"></a>
+  <a href="#"><img src="https://img.shields.io/badge/templates-12-orange?style=flat-square" alt="Templates"></a>
+  <a href="#"><img src="https://img.shields.io/badge/references-5-yellow?style=flat-square" alt="References"></a>
+  <a href="#"><img src="https://img.shields.io/badge/repos_studied-9-red?style=flat-square" alt="Repos Studied"></a>
 </p>
 
 <p align="center">
@@ -32,12 +34,14 @@ git clone https://github.com/david-aistudio/hera.git && cd hera
 ./install.sh claude        # or hermes, opencode, cursor, etc.
 
 # 3. Read the architecture
-cat SKILL.md               # 31 sections, 1600+ lines
+cat SKILL.md               # 3282 lines, 32 sections
 ```
 
 **What you get:**
-- Complete architecture reference (verified from 62K star codebase)
-- 6 code templates (copy-paste ready)
+- Complete architecture reference (verified from 9 codebases, 770K+ combined stars)
+- 12 code templates (6 TypeScript + 6 Python, copy-paste ready)
+- 2 example agents (TypeScript + Python, full working implementations)
+- 5 reference files (advanced patterns, token optimization, ECC patterns, spec-driven dev, innovation patterns)
 - Validation checklist (50+ checks)
 - Security, error handling, testing patterns
 - Deployment guide (local, Docker, cloud)
@@ -47,16 +51,29 @@ cat SKILL.md               # 31 sections, 1600+ lines
 
 ## What is Hera?
 
-Hera is a technical reference document that explains how [Pi Agent](https://github.com/earendil-works/pi) works internally. Pi is an open-source TypeScript coding agent with 62K stars on GitHub.
+Hera is a technical reference document that explains how production-grade AI coding agents work internally. Every detail is verified against actual open-source codebases.
 
-Every section in this document is verified against the actual source code. This is not a tutorial or a blog post — it's a breakdown of a real, production-grade agent architecture.
+**Repos studied:**
+
+| Repo | Stars | Key Contribution |
+|---|---|---|
+| [Pi Agent](https://github.com/earendil-works/pi) | 62K | Two-loop agent, tree sessions, extensions, provider abstraction |
+| [ECC](https://github.com/affaan-m/ECC) | 211.9K | 64 specialized agents, autonomous loops, self-debugging, hooks |
+| [OpenClaw](https://github.com/anthropics/open-claw) | 378K | Agent-harness, branch compaction, context engineering |
+| [Aider](https://github.com/paul-gauthier/aider) | 30K+ | Edit formats, fuzzy match, architect mode, git-native patterns |
+| [OpenCode](https://github.com/opencode-ai/opencode) | 20K+ | Effect-TS, permission system, plugins, TypeScript errors |
+| [Kilo Code](https://github.com/kilo-code/kilo) | 20K+ | Scout mode, reference guidance, task coordination |
+| [GSD Core](https://github.com/gsd-core) | Growing | Spec-driven development, multi-agent orchestration |
+| [RTK](https://github.com/rtk-framework) | Growing | Token optimization (60-90% reduction) |
+| [Headroom](https://github.com/headroom-ai) | Growing | Context compression (60-95% reduction, 6 algorithms) |
 
 **Hera Framework** is included — a structural framework based on AGENTS.md hierarchy that keeps any agent project organized and maintainable.
 
 **Use this to:**
 - Understand how coding agents work under the hood
 - Build your own agent from scratch
-- Reference proven patterns for agent design
+- Reference proven patterns from 9 codebases
+- Make informed decisions about agent architecture
 - Structure your agent project with Hera Framework
 
 ---
@@ -69,7 +86,7 @@ cd hera
 ./install.sh <agent-name>
 ```
 
-**Supported agents:**
+**Supported agents (18):**
 
 | Agent | Command |
 |---|---|
@@ -97,7 +114,7 @@ cd hera
 
 ## What's Covered
 
-The main reference is in **SKILL.md** (40KB+, 23 sections):
+### SKILL.md — Main Reference (3282 lines, 32 sections)
 
 | # | Section | Content |
 |---|---------|---------|
@@ -111,41 +128,69 @@ The main reference is in **SKILL.md** (40KB+, 23 sections):
 | 8 | Message Conversion | How custom messages become LLM-compatible messages |
 | 9 | Tool System | 7 built-in tools (read, write, edit, bash, grep, find, ls) |
 | 10 | Extension System | Plugin system with lifecycle hooks and UI primitives |
-| 11 | AI Layer | Provider abstraction for 20+ LLM providers |
+| 11 | AI Layer | Provider abstraction, custom providers, fallback chain |
 | 12 | System Prompt | How the system prompt is constructed |
 | 13 | Skills & Templates | How skills and prompt templates are loaded |
 | 14 | Event Architecture | Full event flow from user input to response |
 | 15 | Design Patterns | 8 patterns used throughout the codebase |
 | 16 | Implementation Guide | Step-by-step order to build your own agent |
 | 17 | Pitfalls | 8 mistakes to avoid |
-| 18 | File Reference | Source file locations and line counts |
-| 19 | Comparison | How Pi differs from Claude Code, Cursor, Codex, etc. |
-| 20 | **Architecture Diagrams** | 6 Mermaid diagrams (agent loop, tools, session, events, extensions, packages) |
-| 21 | **Validation Checklist** | 11 categories with checkboxes to verify your implementation |
-| 22 | Changelog | Version history |
-| 23 | Contributing | How to contribute |
-| 24 | **Code Templates** | 6 minimal working code examples (agent loop, tools, session, provider, harness, extension) |
-| 25 | **Security Patterns** | Tool sandboxing, permissions, input/output sanitization, API key security |
-| 26 | **Error Handling** | Retry, graceful degradation, error propagation, recovery patterns |
-| 27 | **Testing Patterns** | Unit tests, integration tests, mocks, fixtures, E2E tests |
-| 28 | **CLI Tools** | `hera init` (scaffold) and `hera validate` (verify implementation) |
-| 29 | **Example Agent** | Complete working agent demonstrating all patterns |
-| 30 | **Deployment** | Local, Docker, cloud deployment guides with monitoring and scaling |
-| 31 | **GitHub Actions** | CI/CD integration for automated validation |
+| 18 | Multi-Agent Knowledge | 10 patterns, 15 decision points, 15 anti-patterns from 18 agents |
+| 19 | Innovation Patterns | FAST (streaming/parallel/cache/lazy), SMART (edit-instructions/fuzzy/architect/linter/scout), NOT STUPID (self-healing/permissions/compaction/errors/auto-commit) |
+| 20 | Architecture Diagrams | 6 Mermaid diagrams (agent loop, tools, session, events, extensions, packages) |
+| 21 | Validation Checklist | 11 categories with 50+ checkboxes |
+| 22 | Code Templates | 6 TypeScript + 6 Python templates |
+| 23 | Security Patterns | Tool sandboxing, permissions, input/output sanitization |
+| 24 | Error Handling | Retry, graceful degradation, error propagation |
+| 25 | Testing Patterns | Unit, integration, E2E tests with mocks and fixtures |
+| 26 | CLI Tools | `hera init` (scaffold) and `hera validate` (verify) |
+| 27 | Example Agent | Complete working agent (TypeScript + Python) |
+| 28 | Deployment | Local, Docker, cloud deployment with monitoring |
+| 29 | GitHub Actions | CI/CD integration for automated validation |
+| 30 | Production Patterns | Task routing, streaming, memory management, context engineering |
+| 31 | Spec-Driven Development | Pipeline from spec to code with multi-agent orchestration |
+| 32 | Token Optimization | 6 strategies for 60-95% token reduction |
+
+### Reference Files (5 files, 1991 lines)
+
+| File | Lines | Content |
+|---|---|---|
+| `references/advanced-patterns.md` | 911 | 8 production features: MCP, Skills, Memory, Plugins, Cost Tracking, Observability, Hooks, Multi-Modal |
+| `references/ecc-patterns.md` | 400 | From ECC (211.9K stars): agent harness construction, 64 specialized agents, autonomous loops, self-debugging, hooks, benchmarking |
+| `references/token-optimization.md` | 479 | From RTK + Headroom: 6 compression strategies (command, diff, search, log, live zone, adaptive) |
+| `references/spec-driven-development.md` | 132 | From GSD Core: spec pipeline, multi-agent orchestration, context engineering, state management |
+| `references/innovation-patterns.md` | 69 | From all repos: fast (streaming/parallel/cache/lazy), smart (edit-instructions/fuzzy/architect/linter/scout), not stupid (self-healing/permissions/compaction/errors/auto-commit) |
+
+### Docs (4 files, 2380 lines)
+
+| File | Lines | Content |
+|---|---|---|
+| `docs/PATTERNS.md` | ~600 | Task routing, error recovery, streaming patterns |
+| `docs/STREAMING.md` | ~500 | Streaming implementation, backpressure, buffering |
+| `docs/MEMORY.md` | ~600 | Memory management, context window, summarization |
+| `docs/ROUTING.md` | ~680 | Provider routing, fallback, load balancing |
+
+### Templates (12 files)
+
+- **TypeScript** (6): Agent loop, tool system, session, provider, harness, extension
+- **Python** (6): Agent loop, tool system, session, provider, harness, extension
+
+### Examples (2 agents)
+
+- **TypeScript** (`examples/full-agent/`): Complete agent with tools, session, provider, tests
+- **Python** (`examples/python-agent/`): Complete agent with 29 tests passing, multi-provider, CLI
 
 ---
 
 ## Hera Framework
 
-**HERA_FRAMEWORK.md** contains a structural framework for organizing agent projects. It's based on the AGENTS.md hierarchy pattern — a proven approach for keeping large projects maintainable.
+**HERA_FRAMEWORK.md** (663 lines) contains:
 
-Key concepts:
-- **AGENTS.md hierarchy**: Root AGENTS.md is the project-wide contract, child AGENTS.md files own specific domains
-- **Read Before Editing**: Always read the relevant AGENTS.md chain before making changes
-- **Update After Editing**: Update AGENTS.md when changes affect structure, contracts, or workflows
-- **Verification**: Check that changes match the established patterns
-
-This framework is what makes the difference between a collection of files and a well-structured project.
+- **5 Project Templates**: coding-agent, web-app, library, api-server, monorepo
+- **3 Real Examples**: Pi Agent, OpenClaw, Aider architecture breakdowns
+- **8 Agent-Specific Guidance**: Claude Code, OpenCode, Cursor, Kilo Code, OpenClaw, Hermes, Pi, Copilot
+- **16 Validation Checks**: Structure, naming, hierarchy, consistency
+- **6 Anti-Patterns**: Common mistakes with examples and fixes
 
 ---
 
@@ -164,7 +209,13 @@ When the context window gets too long, old messages are automatically summarized
 Users can inject messages while the agent is running without interrupting it. Three queue types: steer (mid-run), follow-up (after stop), and next-turn (prepend to next turn).
 
 **Provider abstraction:**
-The same API works for 20+ providers (OpenAI, Anthropic, Google, Bedrock, etc.). Providers register handlers for their API type.
+The same API works for 20+ providers (OpenAI, Anthropic, Google, Bedrock, etc.). Providers register handlers for their API type. Fallback chains ensure reliability.
+
+**Autonomous loops (from ECC):**
+Six loop patterns: sequential, infinite, PR loop, de-sloppify, multi-agent DAG, RFC-driven. Agents can self-debug and recover from failures.
+
+**Token optimization (from RTK + Headroom):**
+Six compression strategies: command output, diff/search/log compression, live zone detection, adaptive compression. 60-95% token reduction.
 
 ---
 
@@ -181,89 +232,66 @@ SKILL.md includes 6 Mermaid diagrams that render on GitHub:
 
 ---
 
-## Validation Checklist
-
-SKILL.md includes a validation checklist with 11 categories and 50+ checkboxes. Use it to verify your agent implementation matches the Hera architecture:
-
-- Core Architecture (6 checks)
-- Message System (6 checks)
-- Tool System (8 checks)
-- Session System (6 checks)
-- Queue System (5 checks)
-- Compaction (5 checks)
-- Extension System (5 checks)
-- AI Layer (5 checks)
-- System Prompt (4 checks)
-- Error Handling (5 checks)
-- Security (5 checks)
-
----
-
-## How Pi Agent Works (Summary)
-
-```
-User Input
-  → AgentHarness.prompt()
-    → Create turn state (system prompt, tools, messages)
-    → Run agent loop:
-        → Stream LLM response
-        → If response has tool calls:
-            → Execute tools (parallel or sequential)
-            → Add results to context
-            → Loop back to LLM
-        → If no tool calls:
-            → Check steering queue (mid-run messages)
-            → Check follow-up queue (after-stop messages)
-            → If queued messages exist, loop back
-            → Otherwise, return response
-    → Save messages to session
-```
-
----
-
-## Comparison
-
-| Feature | Pi | Claude Code | OpenCode | Cursor | Codex |
-|---|---|---|---|---|---|
-| Agent loop | Two-loop (steering + follow-up) | Single loop | Single loop | Single loop | Single loop |
-| Session storage | Tree-based with branching | Linear | SQLite | Linear | Linear |
-| Compaction | Built-in auto-summarize | Manual | Manual | Manual | Manual |
-| Extension system | Full plugin (lifecycle hooks, tools, UI) | Hooks only | Plugins | Rules | Rules |
-| LLM providers | 20+ native | 1 (Anthropic) | Multi | Multi | 1 (OpenAI) |
-| Mid-run injection | Queue-based steering | Not supported | Not supported | Not supported | Not supported |
-| Open source | Yes (MIT) | No | Yes (MIT) | No | No |
-
----
-
 ## File Structure
 
 ```
 hera/
-├── AGENTS.md                   Root contract (Hera Framework)
-├── HERA_FRAMEWORK.md           Structural framework
-├── SKILL.md                    Architecture reference (19 sections)
-├── README.md                   This file
-├── CLAUDE.md                   Claude Code config
-├── install.sh                  Installation script (18 agents)
-├── package.json                npm metadata
-├── LICENSE                     MIT License
-├── assets/hera-logo.jpg        Logo
-├── .cursor/rules/hera.mdc     Cursor config
-├── .agents/rules/hera.md      Antigravity config
-├── .agents/workflows/hera.md  Antigravity workflow
-└── .kiro/skills/hera/SKILL.md Kiro config
+├── AGENTS.md                       Root contract (Hera Framework)
+├── HERA_FRAMEWORK.md               Structural framework (663 lines)
+├── SKILL.md                        Architecture reference (3282 lines, 32 sections)
+├── README.md                       This file
+├── CHANGELOG.md                    Version history
+├── CONTRIBUTING.md                 How to contribute
+├── CLAUDE.md                       Claude Code config
+├── DEPLOYMENT.md                   Deployment guide
+├── ERROR_HANDLING.md               Error handling patterns
+├── SECURITY.md                     Security patterns
+├── TESTING.md                      Testing patterns
+├── install.sh                      Installation script (18 agents)
+├── package.json                    npm metadata
+├── LICENSE                         MIT License
+├── assets/hera-logo.jpg            Logo
+├── references/
+│   ├── advanced-patterns.md        8 production features (911 lines)
+│   ├── ecc-patterns.md             ECC patterns (400 lines)
+│   ├── token-optimization.md       Token optimization (479 lines)
+│   ├── spec-driven-development.md  Spec-driven dev (132 lines)
+│   └── innovation-patterns.md      Innovation patterns (69 lines)
+├── templates/
+│   ├── TypeScript (6 files)        Agent loop, tools, session, provider, harness, extension
+│   └── Python (6 files)            Agent loop, tools, session, provider, harness, extension
+├── examples/
+│   ├── full-agent/                 TypeScript example agent
+│   └── python-agent/               Python example agent (29 tests)
+├── docs/
+│   ├── PATTERNS.md                 Production patterns
+│   ├── STREAMING.md                Streaming patterns
+│   ├── MEMORY.md                   Memory management
+│   └── ROUTING.md                  Provider routing
+├── cli/
+│   ├── hera-init.ts                Scaffold CLI
+│   └── hera-validate.ts            Validation CLI
+├── .github/actions/validate/       GitHub Action
+├── .cursor/rules/hera.mdc         Cursor config
+├── .agents/rules/hera.md          Antigravity config
+├── .agents/workflows/hera.md      Antigravity workflow
+└── .kiro/skills/hera/SKILL.md     Kiro config
 ```
 
 ---
 
-## Source
+## Stats
 
-All architecture details are verified from:
-- **Repository**: [earendil-works/pi](https://github.com/earendil-works/pi)
-- **Stars**: 62,000+
-- **Language**: TypeScript
-- **License**: MIT
-- **Version analyzed**: v0.79.2
+| Metric | Value |
+|---|---|
+| SKILL.md | 3282 lines, 32 sections |
+| Reference files | 5 files, 1991 lines |
+| Total content | 15,000+ lines |
+| Templates | 12 (6 TS + 6 Python) |
+| Example agents | 2 (TypeScript + Python) |
+| Repos studied | 9 (770K+ combined stars) |
+| Agents supported | 18 |
+| Python tests | 29 passing |
 
 ---
 
