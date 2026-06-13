@@ -9,11 +9,12 @@
 </p>
 
 <p align="center">
-  <a href="#"><img src="https://img.shields.io/badge/version-1.3.0-blue?style=flat-square" alt="Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/version-1.4.0-blue?style=flat-square" alt="Version"></a>
   <a href="#"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License"></a>
   <a href="#"><img src="https://img.shields.io/badge/agents-18+-brightgreen?style=flat-square" alt="Agents"></a>
-  <a href="#"><img src="https://img.shields.io/badge/sections-31-purple?style=flat-square" alt="Sections"></a>
-  <a href="#"><img src="https://img.shields.io/badge/templates-6-orange?style=flat-square" alt="Templates"></a>
+  <a href="#"><img src="https://img.shields.io/badge/sections-35-purple?style=flat-square" alt="Sections"></a>
+  <a href="#"><img src="https://img.shields.io/badge/templates-12-orange?style=flat-square" alt="Templates"></a>
+  <a href="#"><img src="https://img.shields.io/badge/languages-TypeScript%20%7C%20Python-blueviolet?style=flat-square" alt="Languages"></a>
 </p>
 
 <p align="center">
@@ -37,9 +38,13 @@ cat SKILL.md               # 31 sections, 1600+ lines
 
 **What you get:**
 - Complete architecture reference (verified from 62K star codebase)
-- 6 code templates (copy-paste ready)
+- 12 code templates — TypeScript + Python (copy-paste ready)
 - Validation checklist (50+ checks)
 - Security, error handling, testing patterns
+- Production patterns (circuit breaker, rate limiter, health checks)
+- Streaming patterns (SSE, WebSocket, chunked responses)
+- Memory management (token counting, context windows, compression)
+- Multi-model routing (fallback chains, cost optimization)
 - Deployment guide (local, Docker, cloud)
 - CLI tools (`hera init`, `hera validate`)
 
@@ -124,14 +129,19 @@ The main reference is in **SKILL.md** (40KB+, 23 sections):
 | 21 | **Validation Checklist** | 11 categories with checkboxes to verify your implementation |
 | 22 | Changelog | Version history |
 | 23 | Contributing | How to contribute |
-| 24 | **Code Templates** | 6 minimal working code examples (agent loop, tools, session, provider, harness, extension) |
-| 25 | **Security Patterns** | Tool sandboxing, permissions, input/output sanitization, API key security |
-| 26 | **Error Handling** | Retry, graceful degradation, error propagation, recovery patterns |
-| 27 | **Testing Patterns** | Unit tests, integration tests, mocks, fixtures, E2E tests |
-| 28 | **CLI Tools** | `hera init` (scaffold) and `hera validate` (verify implementation) |
-| 29 | **Example Agent** | Complete working agent demonstrating all patterns |
-| 30 | **Deployment** | Local, Docker, cloud deployment guides with monitoring and scaling |
-| 31 | **GitHub Actions** | CI/CD integration for automated validation |
+| 24 | **Code Templates (TS)** | 6 TypeScript templates (agent loop, tools, session, provider, harness, extension) |
+| 25 | **Code Templates (Python)** | 6 Python templates (same architecture, native Python) |
+| 26 | **Security Patterns** | Tool sandboxing, permissions, input/output sanitization, API key security |
+| 27 | **Error Handling** | Retry, graceful degradation, error propagation, recovery patterns |
+| 28 | **Testing Patterns** | Unit tests, integration tests, mocks, fixtures, E2E tests |
+| 29 | **CLI Tools** | `hera init` (scaffold) and `hera validate` (verify implementation) |
+| 30 | **Example Agent** | Complete working agent demonstrating all patterns |
+| 31 | **Deployment** | Local, Docker, cloud deployment guides with monitoring and scaling |
+| 32 | **GitHub Actions** | CI/CD integration for automated validation |
+| 33 | **Production Patterns** | Circuit breaker, rate limiter, health checks, graceful shutdown, connection pooling |
+| 34 | **Streaming Patterns** | SSE, WebSocket, chunked response assembly, backpressure handling |
+| 35 | **Memory Management** | Token counting, context windows, conversation compression, sliding window |
+| 36 | **Multi-Model Routing** | Provider router, fallback chains, cost optimization, load balancing |
 
 ---
 
@@ -244,14 +254,45 @@ hera/
 ├── SKILL.md                    Architecture reference (19 sections)
 ├── README.md                   This file
 ├── CLAUDE.md                   Claude Code config
+├── CHANGELOG.md                Version history
+├── CONTRIBUTING.md             Contribution guide
+├── SECURITY.md                 Security patterns
+├── ERROR_HANDLING.md           Error handling patterns
+├── TESTING.md                  Testing patterns
+├── DEPLOYMENT.md               Deployment guide
 ├── install.sh                  Installation script (18 agents)
 ├── package.json                npm metadata
 ├── LICENSE                     MIT License
 ├── assets/hera-logo.jpg        Logo
+├── docs/
+│   ├── PATTERNS.md             Production patterns (circuit breaker, rate limiter, health checks)
+│   ├── STREAMING.md            Streaming patterns (SSE, WebSocket, chunked responses)
+│   ├── MEMORY.md               Memory management (token counting, compression, context windows)
+│   └── ROUTING.md              Multi-model routing (fallback chains, cost optimization)
+├── templates/
+│   ├── minimal-agent-loop.ts   Agent loop template (TypeScript)
+│   ├── minimal-tool.ts         Tool system template (TypeScript)
+│   ├── minimal-session.ts      Session template (TypeScript)
+│   ├── minimal-provider.ts     Provider template (TypeScript)
+│   ├── minimal-harness.ts      Harness template (TypeScript)
+│   ├── minimal-extension.ts    Extension template (TypeScript)
+│   └── python/
+│       ├── README.md           Python templates guide
+│       ├── minimal_agent_loop.py   Agent loop template (Python)
+│       ├── minimal_tool.py         Tool system template (Python)
+│       ├── minimal_session.py      Session template (Python)
+│       ├── minimal_provider.py     Provider template (Python)
+│       ├── minimal_harness.py      Harness template (Python)
+│       └── minimal_extension.py    Extension template (Python)
+├── cli/
+│   ├── hera-init.ts            CLI: project scaffolding
+│   └── hera-validate.ts        CLI: implementation validation
+├── examples/full-agent/        Complete working example
 ├── .cursor/rules/hera.mdc     Cursor config
 ├── .agents/rules/hera.md      Antigravity config
 ├── .agents/workflows/hera.md  Antigravity workflow
-└── .kiro/skills/hera/SKILL.md Kiro config
+├── .kiro/skills/hera/SKILL.md Kiro config
+└── .github/actions/validate/  CI/CD validation action
 ```
 
 ---

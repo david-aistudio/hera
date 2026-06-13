@@ -5,6 +5,46 @@ All notable changes to Hera will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-06-13
+
+### Added
+- Python templates (section 25) — 6 production-ready Python implementations:
+  - `templates/python/minimal_agent_loop.py` — Core loop (async, dataclasses, Protocol)
+  - `templates/python/minimal_provider.py` — OpenAI + Anthropic providers with streaming
+  - `templates/python/minimal_tool.py` — Tool system with validation, registry, multi-format export
+  - `templates/python/minimal_session.py` — Session with branching, JSON persistence, context windows
+  - `templates/python/minimal_extension.py` — Extension system with lifecycle hooks
+  - `templates/python/minimal_harness.py` — Top-level orchestrator wiring everything together
+- Production patterns (section 33) — `docs/PATTERNS.md`:
+  - Circuit breaker for LLM provider calls
+  - Token bucket rate limiter with adaptive adjustment
+  - Health checks for all components
+  - Graceful shutdown with in-flight task tracking
+  - Connection pooling for HTTP clients
+  - Structured JSON logging
+  - Metrics collection (counters, histograms, gauges)
+- Streaming patterns (section 34) — `docs/STREAMING.md`:
+  - SSE parsing with tool call delta assembly
+  - WebSocket streaming for real-time agents
+  - Chunked response assembly
+  - Backpressure handling
+  - Token-by-token callbacks
+- Memory management (section 35) — `docs/MEMORY.md`:
+  - Token counting (tiktoken + approximation)
+  - Context window budget management
+  - Conversation compression with LLM summarization
+  - Sliding window with automatic compression
+  - Smart truncation strategies (oldest-first, keep-system, keep-tools)
+- Multi-model routing (section 36) — `docs/ROUTING.md`:
+  - Provider router with task-type based selection
+  - Fallback chain for provider outages
+  - Cost tracking and optimization
+  - Load balancing across provider instances
+
+### Changed
+- README.md — updated to 36 sections, 12 templates, Python + TypeScript
+- Version bumped to 1.4.0
+
 ## [1.3.0] - 2026-06-13
 
 ### Added
