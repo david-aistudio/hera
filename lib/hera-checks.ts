@@ -24,7 +24,8 @@ export type CheckCategory =
   | "errorHandling"
   | "security"
   | "streaming"
-  | "quality";
+  | "quality"
+  | "routing";
 
 export const CHECKS: Record<CheckCategory, Check[]> = {
   // Core Architecture
@@ -242,6 +243,61 @@ export const CHECKS: Record<CheckCategory, Check[]> = {
         code.includes("tokensUsed"),
       message: "Should track token usage (usage.total_tokens / prompt_tokens)",
       hint: "const total = response.usage.input_tokens + response.usage.output_tokens;",
+    },
+  ],
+
+  // Routing & Multi-Key (inspired by 9router)
+  routing: [
+    {
+      name: "Multi-key pool supported",
+      check: (code: string) =>
+        code.includes("apiKey") ||
+        code.includes("api_key") ||
+        code.includes("ApiKey") ||
+        code.includes("accounts") ||
+        code.includes("keyPool"),
+      message: "Should support a pool of API keys per provider",
+      hint: "interface ApiKey { id: string; key: string; rateLimitedUntil?: string; }",
+    },
+    {
+      name: "Key cooldown (rate-limit awareness)",
+      check: (code: string) =>
+        code.includes("rateLimitedUntil") ||
+        code.includes("rate_limited_until") ||
+        code.includes("cooldown") ||
+        code.includes("unavailableUntil"),
+      message: "Should track per-key cooldown (skip rate-limited keys)",
+      hint: "rateLimitedUntil: new Date(Date.now() + cooldownMs).toISOString()",
+    },
+    {
+      name: "Round-robin or fallback strategy",
+      check: (code: string) =>
+        code.includes("round-robin") ||
+        code.includes("roundRobin") ||
+        code.includes("stickyLimit") ||
+        code.includes("consecutiveUseCount") ||
+        code.includes("strategy") ||
+        code.includes("fallback"),
+      message: "Should support a fallback/rotation strategy across keys",
+      hint: 'strategy: "fallback" | "round-robin" with optional stickyLimit',
+    },
+    {
+      name: "Exponential backoff on errors",
+      check: (code: string) =>
+        (code.includes("backoff") || code.includes("Backoff")) &&
+        (code.includes("2 **") || code.includes("Math.pow") || code.includes("exponential")),
+      message: "Should use exponential backoff for rate-limit errors (2s -> 4s -> 8s)",
+      hint: "const cooldown = base * 2 ** level;  // exponential",
+    },
+    {
+      name: "Config-driven error classification",
+      check: (code: string) =>
+        code.includes("ERROR_RULES") ||
+        code.includes("errorRules") ||
+        code.includes("errorConfig") ||
+        (code.includes("cooldownMs") && code.includes("backoff")),
+      message: "Should classify errors via config rules (text + status), not hardcoded",
+      hint: "const RULES = [{text:'rate limit', backoff:true}, {status:429, backoff:true}];",
     },
   ],
 

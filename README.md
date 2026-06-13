@@ -14,7 +14,7 @@
   <a href="#"><img src="https://img.shields.io/badge/agents-18+-brightgreen?style=flat-square" alt="Agents"></a>
   <a href="#"><img src="https://img.shields.io/badge/sections-32-purple?style=flat-square" alt="Sections"></a>
   <a href="#"><img src="https://img.shields.io/badge/templates-16-orange?style=flat-square" alt="Templates"></a>
-  <a href="#"><img src="https://img.shields.io/badge/references-15-yellow?style=flat-square" alt="References"></a>
+  <a href="#"><img src="https://img.shields.io/badge/references-16-yellow?style=flat-square" alt="References"></a>
   <a href="#"><img src="https://img.shields.io/badge/repos_studied-9-red?style=flat-square" alt="Repos Studied"></a>
 </p>
 

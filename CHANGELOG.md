@@ -5,6 +5,48 @@ All notable changes to Hera will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.10.0] - 2026-06-13
+
+### Added
+- **9router patterns extracted into hera** (from [decolua/9router](https://github.com/decolua/9router))
+  - New reference: `references/9router-architecture.md` (12 sections, 250+ lines)
+    - Combo system (model chains with strategy)
+    - Account fallback + cooldown (`rateLimitedUntil` ISO timestamp)
+    - Exponential backoff (2s -> 4s -> 8s, max 5 min)
+    - Per-model lock (granular, separate from account-level)
+    - Config-driven error classification rules
+    - Format translation layer (OpenAI <-> Anthropic <-> Gemini)
+    - Per-day usage aggregation (byProvider/byModel/byAccount/byApiKey)
+  - **New `routing` category in `lib/hera-checks.ts`** — 5 new checks (32 -> 37 checks total):
+    - Multi-key pool supported
+    - Key cooldown (rate-limit awareness)
+    - Round-robin or fallback strategy
+    - Exponential backoff on errors
+    - Config-driven error classification
+- **Upgraded `templates/minimal-provider-fallback.ts`** (118 -> 426 lines):
+  - Multi-key pool with `ApiKey` type (id, key, rateLimitedUntil, backoffLevel)
+  - Round-robin with sticky limit (`stickyLimit: 1` rotates every call, `N` sticks for N)
+  - `filterAvailableKeys()` skips keys in cooldown
+  - `applyErrorState()` updates key with backoff + cooldown
+  - `resetKeyState()` clears state on success
+  - `checkFallbackError()` config-driven error rules
+  - `DEFAULT_ERROR_RULES` with text + status matching
+  - Exponential backoff via `computeBackoff(level, base, max)`
+- **Added Python equivalent** `templates/python/minimal_provider_fallback.py` (305 lines)
+- **Added test suite** `tests/templates/provider-fallback.test.ts` (19 tests):
+  - `filterAvailableKeys` (cooldown filtering)
+  - `checkFallbackError` (text/status/exponential backoff)
+  - `ProviderRouter` fallback strategy
+  - `ProviderRouter` round-robin with sticky
+  - Error handling (400 terminal, maxAttempts)
+  - Management (resetAll, setKeys)
+
+### Changed
+- **package.json**: 2.9.0 -> 2.10.0
+- **README.md**: `references-15` -> `references-16`
+- **AGENTS.md**: reference files list (15 -> 16)
+- **Test count**: 58 -> 77 (+19 from new provider-fallback tests)
+
 ## [2.9.0] - 2026-06-13
 
 ### Added

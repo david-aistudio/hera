@@ -34,7 +34,7 @@ hera/
 └── .kiro/skills/hera/SKILL.md ← Kiro config
 ```
 
-### Reference Files (15 files, ~63K lines)
+### Reference Files (16 files, ~76K lines)
 
 `references/advanced-patterns.md`, `references/claude-code-architecture.md`,
 `references/ecc-architecture.md`, `references/opencode-architecture.md`,
@@ -45,7 +45,8 @@ hera/
 **`references/agent-loop-harness.md`** (SKILL.md §3–5 extracted),
 **`references/session-and-compaction.md`** (SKILL.md §6–7 extracted),
 **`references/ai-providers-layer.md`** (SKILL.md §11 extracted),
-**`references/codex-architecture.md`** (OpenAI Codex — added 2026-06-13)
+**`references/codex-architecture.md`** (OpenAI Codex — added 2026-06-13),
+**`references/9router-architecture.md`** (9router router patterns — added 2026-06-13)
 
 ### Code Templates (16 files, 8 TypeScript + 8 Python)
 
