@@ -95,6 +95,10 @@ The main reference is in **SKILL.md** (40KB+, 23 sections):
 | 21 | **Validation Checklist** | 11 categories with checkboxes to verify your implementation |
 | 22 | Changelog | Version history |
 | 23 | Contributing | How to contribute |
+| 24 | **Code Templates** | 6 minimal working code examples (agent loop, tools, session, provider, harness, extension) |
+| 25 | **Security Patterns** | Tool sandboxing, permissions, input/output sanitization, API key security |
+| 26 | **Error Handling** | Retry, graceful degradation, error propagation, recovery patterns |
+| 27 | **Testing Patterns** | Unit tests, integration tests, mocks, fixtures, E2E tests |
 
 ---
 

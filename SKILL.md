@@ -1441,3 +1441,58 @@ See [CHANGELOG.md](CHANGELOG.md) for version history.
 ## 23. CONTRIBUTING
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+
+---
+
+## 24. CODE TEMPLATES
+
+See `templates/` directory for minimal working code examples:
+
+| Template | File | Lines | Purpose |
+|---|---|---|---|
+| Agent Loop | `templates/minimal-agent-loop.ts` | 180+ | Core loop — call LLM, execute tools, repeat |
+| Tool | `templates/minimal-tool.ts` | 200+ | Create tools (read, bash, ask_user) |
+| Session | `templates/minimal-session.ts` | 250+ | Tree-based session with branching |
+| Provider | `templates/minimal-provider.ts` | 250+ | LLM provider abstraction with streaming |
+| Harness | `templates/minimal-harness.ts` | 200+ | Orchestration layer with queues |
+| Extension | `templates/minimal-extension.ts` | 250+ | Plugin system with events and tools |
+
+Each template is self-contained, runnable, and demonstrates the core concepts from the architecture reference.
+
+---
+
+## 25. SECURITY PATTERNS
+
+See [SECURITY.md](SECURITY.md) for detailed security patterns:
+
+- Tool sandboxing (command whitelist/blacklist, file access restrictions)
+- Permission system (auto/confirm/block levels)
+- Input validation (sanitize, length limits)
+- Output sanitization (strip sensitive data, limit size)
+- API key security (never log, environment variables, rotation)
+- Audit logging
+
+---
+
+## 26. ERROR HANDLING PATTERNS
+
+See [ERROR_HANDLING.md](ERROR_HANDLING.md) for detailed error handling patterns:
+
+- Retry with exponential backoff
+- Graceful degradation (fallback model, skip tools, partial results)
+- Error propagation (tool → error result, provider → error message)
+- User-facing errors (human-readable, error codes)
+- Abort handling (signal respect, cleanup)
+- Recovery patterns (session recovery, context recovery)
+
+---
+
+## 27. TESTING PATTERNS
+
+See [TESTING.md](TESTING.md) for detailed testing patterns:
+
+- Unit tests (tools, message conversion, session storage)
+- Integration tests (agent loop, tool execution)
+- Mock patterns (LLM provider, tools, session storage)
+- Test fixtures (sample conversations, tool results)
+- E2E tests (full conversation flow, error recovery)

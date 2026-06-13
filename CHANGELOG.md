@@ -5,6 +5,36 @@ All notable changes to Hera will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-06-13
+
+### Added
+- Code templates (section 24) — 6 minimal working examples:
+  - `templates/minimal-agent-loop.ts` — Core loop implementation
+  - `templates/minimal-tool.ts` — Tool creation (read, bash, ask_user)
+  - `templates/minimal-session.ts` — Tree-based session with branching
+  - `templates/minimal-provider.ts` — LLM provider abstraction with streaming
+  - `templates/minimal-harness.ts` — Orchestration layer with queues
+  - `templates/minimal-extension.ts` — Plugin system with events and tools
+- SECURITY.md — Security patterns:
+  - Tool sandboxing (command whitelist/blacklist, file access)
+  - Permission system (auto/confirm/block levels)
+  - Input validation and output sanitization
+  - API key security and audit logging
+- ERROR_HANDLING.md — Error handling patterns:
+  - Retry with exponential backoff
+  - Graceful degradation and partial results
+  - Error propagation and recovery
+  - User-facing error messages
+- TESTING.md — Testing patterns:
+  - Unit tests for tools, messages, sessions
+  - Integration tests for agent loop and tool execution
+  - Mock patterns (LLM, tools, session)
+  - Test fixtures and E2E tests
+
+### Changed
+- SKILL.md — added sections 24-27 referencing new files
+- README.md — updated to 27 sections
+
 ## [1.1.0] - 2026-06-13
 
 ### Added
