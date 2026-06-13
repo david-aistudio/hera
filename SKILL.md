@@ -3099,3 +3099,30 @@ CI/CD integration via `.github/actions/validate/action.yml`:
 ```
 
 Outputs: `score` (0-100) and `passed` (true/false)
+
+---
+
+## 32. INNOVATION PATTERNS (Deep Code Study)
+
+See `references/innovation-patterns.md` for full details. Summary:
+
+### How to Make Your Agent FAST
+- **Streaming** (OpenClaw): 100ms first token
+- **Parallel tools** (OpenClaw): 5 tools = 1x latency
+- **Cache warming** (Aider): 10x cheaper cached prompts
+- **Lazy file loading** (Aider RepoMap): read 5 files not 50
+
+### How to Make Agent SMART with DUMB Models
+- **Edit instructions** (Aider): SEARCH/REPLACE, not raw code
+- **Fuzzy match** (Aider): recover from LLM mistakes
+- **Architect+Editor** (Aider): cheap model plans, expensive edits
+- **Linter after edit** (Aider): catch syntax errors instantly
+- **Scout mode** (Kilo Code): explore before editing
+- **Reference guidance** (Kilo Code): context-aware prompts
+
+### How to Make Agent NOT STUPID
+- **Self-healing loop**: detect stuck, auto-recover
+- **Permission system** (OpenCode): doom_loop, .env, external dirs
+- **Branch compaction** (OpenClaw): track file ops across compaction
+- **Typed errors** (OpenCode): specific recovery per error type
+- **Auto-commit + rollback** (Aider): every change reversible
