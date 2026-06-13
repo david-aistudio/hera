@@ -78,13 +78,52 @@ Hera is a technical reference document that explains how production-grade AI cod
 
 ---
 
-## Installation
+## Installation (3 ways)
+
+### Way 1: One-liner (recommended)
 
 ```bash
-git clone https://github.com/david-aistudio/hera.git
-cd hera
-./install.sh <agent-name>
+# Auto-detect your agent
+curl -sSL https://raw.githubusercontent.com/david-aistudio/hera/main/install.sh | bash
+
+# Or specify agent
+curl -sSL https://raw.githubusercontent.com/david-aistudio/hera/main/install.sh | bash -s -- claude
+curl -sSL https://raw.githubusercontent.com/david-aistudio/hera/main/install.sh | bash -s -- hermes
+curl -sSL https://raw.githubusercontent.com/david-aistudio/hera/main/install.sh | bash -s -- cursor
 ```
+
+### Way 2: Clone and install
+
+```bash
+git clone https://github.com/david-aistudio/hera.git && cd hera
+./install.sh claude        # or hermes, opencode, cursor, etc.
+```
+
+### Way 3: Manual
+
+Just copy the right file to the right place:
+- **Claude Code**: Copy `CLAUDE.md` to your project root
+- **Hermes**: Copy `SKILL.md` to `~/.hermes/skills/hera/SKILL.md`
+- **Cursor**: Copy `.cursor/rules/hera.mdc` to your project
+- **Others**: Copy `AGENTS.md` to your project root
+
+### What the installer does
+
+The installer auto-detects your agent and installs the right config file:
+
+| Agent | File | Location |
+|---|---|---|
+| Claude Code | `CLAUDE.md` | Project root |
+| Hermes | `SKILL.md` | `~/.hermes/skills/hera/` |
+| Cursor | `hera.mdc` | `.cursor/rules/` |
+| OpenCode | `AGENTS.md` | Project root |
+| Kilo Code | `SKILL.md` | `.kilo/skills/hera/` |
+| Kiro | `SKILL.md` | `.kiro/skills/hera/` |
+| Aider | `AGENTS.md` | Project root |
+| Gemini | `GEMINI.md` | Project root |
+| Pi | `SKILL.md` | `~/.pi/agent/skills/hera/` |
+| Copilot | `SKILL.md` | `~/.copilot/skills/hera/` |
+| Devin | `SKILL.md` | `~/.config/devin/skills/hera/` |
 
 **Supported agents (18):**
 
