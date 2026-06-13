@@ -5,6 +5,27 @@ All notable changes to Hera will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.0] - 2026-06-13
+
+### Added
+- **8 new validator checks** in 2 new categories
+  - `streaming` category (3 checks): Streaming response (AsyncIterable), Cancellation propagation, Token usage tracking
+  - `quality` category (5 checks): Test suite, CI workflow, Provider fallback, Cost guard, Observability
+  - Total checks: 24 → 32 (+33% coverage)
+- **`hint` field on every check** — actionable code snippets shown alongside failure messages
+  - CLI now prints `→ Message` (yellow) followed by `💡 Hint` (cyan) for each failed check
+  - 13 checks include hints with concrete code examples (e.g. `class AgentHarness { private agent: Agent; ... }`)
+- **Dynamic CLI banner** — reads `package.json` at startup, no more version drift
+  - `bin/hera.js` shows `Hera v{version}` and `{N} AI agents supported` from package.json + AGENTS object
+  - `cli/hera-graph.ts` shows `Hera v{version}` in summary and help
+  - Graceful fallback to hardcoded values if package.json can't be read
+
+### Changed
+- **`lib/hera-checks.ts`** — `Check` interface now has optional `hint?: string` field
+- **`lib/hera-validator.ts`** — `CheckResult` propagates `hint` to CLI consumers
+- **`cli/hera-validate.ts`** — prints `💡` hint line after each failure message
+- **Test count**: 46 → 58 (+12 new tests for streaming, quality, hint field, dynamic banner)
+
 ## [2.7.3] - 2026-06-13
 
 ### Added

@@ -37,6 +37,17 @@ const GITHUB_RAW = 'https://raw.githubusercontent.com/david-aistudio/hera/main';
 // Subcommand dispatch (graph, etc.)
 const SUBCOMMANDS = ['graph'];
 
+// Read version + metadata from package.json dynamically
+// (avoids the "version drift" bug where the banner falls behind reality)
+let PKG_META = { version: '?', description: '' };
+try {
+  const pkgPath = path.join(__dirname, '..', 'package.json');
+  PKG_META = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
+} catch (err) {
+  // Fall back to hardcoded values if package.json can't be read
+  PKG_META = { version: '2.7.3', description: 'Hera — AI Coding Agent Architecture Reference' };
+}
+
 // Supported agents and their install configs
 const AGENTS = {
   claude: {
@@ -321,10 +332,11 @@ ${colors.cyan}Examples:${colors.reset}
 
 // Main
 async function main() {
+  const agentCount = Object.keys(AGENTS).length;
   console.log(`${colors.blue}`);
   console.log('  ╔═══════════════════════════════════════╗');
-  console.log('  ║           🏛 Hera Installer           ║');
-  console.log('  ║   AI Coding Agent Architecture Ref    ║');
+  console.log(`  ║  🏛  Hera v${PKG_META.version}                     ║`);
+  console.log(`  ║  ${agentCount} AI agents supported${' '.repeat(Math.max(0, 19 - String(agentCount).length))}║`);
   console.log('  ╚═══════════════════════════════════════╝');
   console.log(`${colors.reset}`);
 

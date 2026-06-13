@@ -143,8 +143,73 @@ describe("hera-checks: messageSystem", () => {
   });
 });
 
+describe("hera-checks: streaming", () => {
+  const findCheck = (name: string) => {
+    for (const checks of Object.values(CHECKS)) {
+      const c = checks.find((c) => c.name === name);
+      if (c) return c;
+    }
+    throw new Error(`Check not found: ${name}`);
+  };
+
+  it("detects AsyncIterable streaming", () => {
+    const code = `async function* call() { for await (const x of stream) yield x; }`;
+    expect(findCheck("Streaming response (AsyncIterable)").check(code)).toBe(true);
+  });
+
+  it("flags missing streaming", () => {
+    const code = `async function call() { return await provider.complete(); }`;
+    expect(findCheck("Streaming response (AsyncIterable)").check(code)).toBe(false);
+  });
+
+  it("detects cancellation propagation", () => {
+    const code = `signal.addEventListener('abort', () => ctrl.abort());`;
+    expect(findCheck("Cancellation propagation").check(code)).toBe(true);
+  });
+
+  it("detects token usage tracking", () => {
+    const code = `const total = response.usage.input_tokens + response.usage.output_tokens;`;
+    expect(findCheck("Token usage tracking").check(code)).toBe(true);
+  });
+});
+
+describe("hera-checks: quality", () => {
+  const findCheck = (name: string) => {
+    for (const checks of Object.values(CHECKS)) {
+      const c = checks.find((c) => c.name === name);
+      if (c) return c;
+    }
+    throw new Error(`Check not found: ${name}`);
+  };
+
+  it("detects test suite", () => {
+    const code = `import { describe, it, expect } from 'vitest';`;
+    expect(findCheck("Test suite exists").check(code)).toBe(true);
+  });
+
+  it("detects CI workflow", () => {
+    const code = `runs-on: ubuntu-latest\nsteps:\n  - uses: actions/checkout@v4`;
+    expect(findCheck("CI workflow configured").check(code)).toBe(true);
+  });
+
+  it("detects provider fallback", () => {
+    const code = `try { return await primary.call(); } catch { return await fallback.call(); }`;
+    expect(findCheck("Provider fallback").check(code)).toBe(true);
+  });
+
+  it("detects cost guard", () => {
+    const code = `if (cost > budget) return { isError: true };`;
+    expect(findCheck("Cost guard").check(code)).toBe(true);
+  });
+
+  it("detects observability", () => {
+    const code = `logger.info({ event: 'tool_call', duration: 100 });`;
+    expect(findCheck("Observability (logging/metrics)").check(code)).toBe(true);
+  });
+});
+
 describe("hera-checks: shape contract", () => {
-  it("has all 6 expected categories", () => {
+  it("has all 8 expected categories", () => {
     const expected = [
       "coreArchitecture",
       "messageSystem",
@@ -152,6 +217,8 @@ describe("hera-checks: shape contract", () => {
       "sessionSystem",
       "errorHandling",
       "security",
+      "streaming",
+      "quality",
     ];
     expect(Object.keys(CHECKS).sort()).toEqual(expected.sort());
   });
@@ -164,5 +231,22 @@ describe("hera-checks: shape contract", () => {
         expect(c.message, `${category}.${c.name}: missing message`).toBeTypeOf("string");
       }
     }
+  });
+});
+
+describe("hera-checks: hint field", () => {
+  it("some checks include an actionable hint", () => {
+    let hintsFound = 0;
+    for (const checks of Object.values(CHECKS)) {
+      for (const c of checks) {
+        if (c.hint && c.hint.length > 0) {
+          hintsFound++;
+          expect(c.hint, `${c.name} has empty hint`).toBeTypeOf("string");
+        }
+      }
+    }
+    // We added hints to many checks; require at least 6 to keep the
+    // feature useful.
+    expect(hintsFound, "expected at least 6 checks with hints").toBeGreaterThanOrEqual(6);
   });
 });

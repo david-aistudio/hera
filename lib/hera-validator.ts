@@ -14,6 +14,7 @@ export interface CheckResult {
   name: string;
   passed: boolean;
   message?: string;
+  hint?: string;
   severity: "error" | "warning" | "info";
 }
 
@@ -65,6 +66,7 @@ export function runCheck(check: Check, code: string): CheckResult {
     name: check.name,
     passed,
     message: passed ? undefined : check.message,
+    hint: passed ? undefined : check.hint,
     severity: passed ? "info" : "error",
   };
 }

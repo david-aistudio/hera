@@ -1,6 +1,6 @@
 {
   "name": "hera-agent",
-  "version": "2.7.1",
+  "version": "2.8.0",
   "description": "Hera — AI Coding Agent Architecture Reference. Install skill/reference for 18+ AI coding agents.",
   "main": "index.js",
   "bin": {

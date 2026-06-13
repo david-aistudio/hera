@@ -53,8 +53,18 @@ describe("bin/hera.js", () => {
     // NOT print its own help text (banner should still appear).
     const r = runTsx(HERA_BIN, ["graph", "--help"]);
     // Banner should appear (parent code ran), but install help should NOT
-    expect(r.stdout).toContain("Hera Installer");
+    expect(r.stdout).toMatch(/Hera v\d/);
     expect(r.stdout).not.toContain("Supported agents:");
+  });
+
+  it("banner shows dynamic version from package.json", () => {
+    const r = runTsx(HERA_BIN, ["--help"]);
+    expect(r.stdout).toMatch(/Hera v\d+\.\d+\.\d+/);
+  });
+
+  it("banner shows supported agent count", () => {
+    const r = runTsx(HERA_BIN, ["--help"]);
+    expect(r.stdout).toMatch(/\d+ AI agents supported/);
   });
 
   it("lists all 18 supported agents in help", () => {

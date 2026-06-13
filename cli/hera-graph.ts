@@ -22,6 +22,15 @@ import * as path from "path";
 
 const GRAPH_PATH = path.resolve(process.cwd(), ".graphify/graph.json");
 
+// Read version dynamically (avoids version drift between CLI and package.json)
+let PKG_VERSION = "?";
+try {
+  const pkgPath = path.resolve(__dirname, "..", "package.json");
+  PKG_VERSION = JSON.parse(require("fs").readFileSync(pkgPath, "utf-8")).version;
+} catch {
+  PKG_VERSION = "2.7.3";
+}
+
 const colors = {
   red: "\x1b[31m",
   green: "\x1b[32m",
@@ -63,7 +72,7 @@ function runGraphify(args: string[]): string {
 
 function cmdSummary(): void {
   checkGraph();
-  console.log(`${colors.bold}${colors.blue}Hera Architecture — Knowledge Graph${colors.reset}\n`);
+  console.log(`${colors.bold}${colors.blue}Hera v${PKG_VERSION} — Architecture Knowledge Graph${colors.reset}\n`);
   console.log(runGraphify(["summary"]));
 }
 
@@ -103,7 +112,7 @@ function cmdExplain(node: string): void {
 
 function cmdHelp(): void {
   console.log(`
-${colors.bold}${colors.cyan}Hera Graph${colors.reset} — visualize the knowledge graph
+${colors.bold}${colors.cyan}Hera Graph v${PKG_VERSION}${colors.reset} — visualize the knowledge graph
 
 ${colors.bold}Usage:${colors.reset}
   npx hera-graph summary              Top hubs, communities, density

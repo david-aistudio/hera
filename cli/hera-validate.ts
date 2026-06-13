@@ -53,6 +53,9 @@ function printCategory(category: CategoryResult): void {
     if (!check.passed && check.message) {
       console.log(`    \x1b[33m→ ${check.message}\x1b[0m`);
     }
+    if (!check.passed && check.hint) {
+      console.log(`    \x1b[36m💡 ${check.hint}\x1b[0m`);
+    }
   }
 }
 

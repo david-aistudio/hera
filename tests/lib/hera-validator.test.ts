@@ -103,6 +103,17 @@ describe("validateProject", () => {
       const cwd = '/tmp';
       function validate() {}
       const apiKey = 'sk-123';
+      // streaming
+      async function* call(ctx) { for await (const c of stream) yield c; }
+      signal.addEventListener('abort', () => {});
+      const total = response.usage.input_tokens;
+      // quality
+      it('works', () => {});
+      on: [push]
+      runs-on: ubuntu-latest
+      try { return primary; } catch { return fallback; }
+      if (cost > budget) return error;
+      logger.info('event');
     `;
     fs.writeFileSync(path.join(tmpDir, "perfect.ts"), code);
 
@@ -111,9 +122,9 @@ describe("validateProject", () => {
     expect(report.issues).toHaveLength(0);
   });
 
-  it("categorizes checks into 6 categories", () => {
+  it("categorizes checks into 8 categories", () => {
     const report = validateProject(tmpDir);
-    expect(report.categories).toHaveLength(6);
+    expect(report.categories).toHaveLength(8);
     const names = report.categories.map((c) => c.category);
     expect(names).toContain("coreArchitecture");
     expect(names).toContain("messageSystem");
@@ -121,6 +132,8 @@ describe("validateProject", () => {
     expect(names).toContain("sessionSystem");
     expect(names).toContain("errorHandling");
     expect(names).toContain("security");
+    expect(names).toContain("streaming");
+    expect(names).toContain("quality");
   });
 
   it("flags issues for missing patterns", () => {
