@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="#"><img src="https://img.shields.io/badge/version-2.5.0-blue?style=flat-square" alt="Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/version-2.6.0-blue?style=flat-square" alt="Version"></a>
   <a href="#"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License"></a>
   <a href="#"><img src="https://img.shields.io/badge/agents-18+-brightgreen?style=flat-square" alt="Agents"></a>
   <a href="#"><img src="https://img.shields.io/badge/sections-32-purple?style=flat-square" alt="Sections"></a>
@@ -24,17 +24,16 @@
 
 ---
 
-## Quick Start (30 seconds)
+## Quick Start (10 seconds)
 
 ```bash
-# 1. Clone
-git clone https://github.com/david-aistudio/hera.git && cd hera
+# One command — auto-detects your agent
+npx hera-agent
 
-# 2. Install for your agent
-./install.sh claude        # or hermes, opencode, cursor, etc.
-
-# 3. Read the architecture
-cat SKILL.md               # 3282 lines, 32 sections
+# Or specify agent
+npx hera-agent claude
+npx hera-agent hermes
+npx hera-agent cursor
 ```
 
 **What you get:**
