@@ -20,7 +20,7 @@ export function createBashTool(cwd: string): Tool {
       } catch (error: any) {
         const stdout = error.stdout || "";
         const stderr = error.stderr || "";
-        return \`\${stdout}\${stderr}\nExit code: \${error.status}\`;
+        return stdout + stderr + "\nExit code: " + error.status;
       }
     },
   };

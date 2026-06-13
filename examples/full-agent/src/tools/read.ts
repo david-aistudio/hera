@@ -10,7 +10,7 @@ export function createReadTool(cwd: string): Tool {
       const filePath = path.resolve(cwd, args.path as string);
       
       if (!fs.existsSync(filePath)) {
-        throw new Error(`File not found: ${args.path}`);
+        throw new Error("File not found: " + args.path);
       }
       
       const content = fs.readFileSync(filePath, "utf-8");
@@ -19,7 +19,7 @@ export function createReadTool(cwd: string): Tool {
       const limit = (args.limit as number) || 500;
       
       const sliced = lines.slice(offset - 1, offset - 1 + limit);
-      return sliced.map((line, i) => \`\${offset + i}|\${line}\`).join("\n");
+      return sliced.map((line, i) => (offset + i) + "|" + line).join("\n");
     },
   };
 }

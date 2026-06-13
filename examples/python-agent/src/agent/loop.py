@@ -8,6 +8,7 @@ Based on Pi Agent's agent-loop.ts.
 from __future__ import annotations
 
 import asyncio
+import json
 import time
 from typing import Any, Callable
 
@@ -128,12 +129,20 @@ class AgentLoop:
                     if isinstance(part, TextContent):
                         text_parts.append(part.text)
                     elif isinstance(part, ToolCallContent):
+                        # Ensure arguments are JSON string (MiniMax returns dict)
+                        args = part.arguments
+                        if isinstance(args, dict):
+                            args_str = json.dumps(args)
+                        elif isinstance(args, str):
+                            args_str = args
+                        else:
+                            args_str = json.dumps(args)
                         tool_calls.append({
                             "id": part.id,
                             "type": "function",
                             "function": {
                                 "name": part.name,
-                                "arguments": str(part.arguments).replace("'", '"'),
+                                "arguments": args_str,
                             },
                         })
 

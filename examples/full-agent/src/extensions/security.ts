@@ -11,7 +11,7 @@ export function createSecurityExtension(): Extension {
           const blocked = ["rm -rf", "mkfs", "dd if="];
           for (const pattern of blocked) {
             if (command?.includes(pattern)) {
-              throw new Error(\`Blocked dangerous command: \${pattern}\`);
+              throw new Error("Blocked dangerous command: " + pattern);
             }
           }
         }

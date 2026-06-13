@@ -15,7 +15,7 @@ export function createWriteTool(cwd: string): Tool {
       }
       
       fs.writeFileSync(filePath, args.content as string);
-      return \`Written to \${args.path}\`;
+      return "Written to " + args.path;
     },
   };
 }
