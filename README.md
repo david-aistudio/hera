@@ -68,7 +68,7 @@ cd hera
 
 ## What's Covered
 
-The main reference is in **SKILL.md** (37KB, 19 sections):
+The main reference is in **SKILL.md** (40KB+, 23 sections):
 
 | # | Section | Content |
 |---|---------|---------|
@@ -91,6 +91,10 @@ The main reference is in **SKILL.md** (37KB, 19 sections):
 | 17 | Pitfalls | 8 mistakes to avoid |
 | 18 | File Reference | Source file locations and line counts |
 | 19 | Comparison | How Pi differs from Claude Code, Cursor, Codex, etc. |
+| 20 | **Architecture Diagrams** | 6 Mermaid diagrams (agent loop, tools, session, events, extensions, packages) |
+| 21 | **Validation Checklist** | 11 categories with checkboxes to verify your implementation |
+| 22 | Changelog | Version history |
+| 23 | Contributing | How to contribute |
 
 ---
 
@@ -124,6 +128,37 @@ Users can inject messages while the agent is running without interrupting it. Th
 
 **Provider abstraction:**
 The same API works for 20+ providers (OpenAI, Anthropic, Google, Bedrock, etc.). Providers register handlers for their API type.
+
+---
+
+## Architecture Diagrams
+
+SKILL.md includes 6 Mermaid diagrams that render on GitHub:
+
+1. **Agent Loop** — Two-loop design (outer: follow-up, inner: steering + tools)
+2. **Tool Execution Flow** — How tools are prepared, validated, and executed
+3. **Session Tree Structure** — How conversations branch and compact
+4. **Event Flow Sequence** — Complete event lifecycle from user input to response
+5. **Extension System** — How extensions register tools, commands, and event handlers
+6. **Package Dependencies** — How the 4 packages depend on each other
+
+---
+
+## Validation Checklist
+
+SKILL.md includes a validation checklist with 11 categories and 50+ checkboxes. Use it to verify your agent implementation matches the Hera architecture:
+
+- Core Architecture (6 checks)
+- Message System (6 checks)
+- Tool System (8 checks)
+- Session System (6 checks)
+- Queue System (5 checks)
+- Compaction (5 checks)
+- Extension System (5 checks)
+- AI Layer (5 checks)
+- System Prompt (4 checks)
+- Error Handling (5 checks)
+- Security (5 checks)
 
 ---
 

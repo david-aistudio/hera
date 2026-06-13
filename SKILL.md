@@ -1151,3 +1151,293 @@ Phase 4: Advanced
 | **Providers** | 20+ native | 1 (Anthropic) | Multi | Multi | 1 (OpenAI) |
 | **Steering** | Queue-based mid-run | Not supported | Not supported | Not supported | Not supported |
 | **Open Source** | Yes (MIT) | No | Yes (MIT) | No | No |
+
+---
+
+## 20. ARCHITECTURE DIAGRAMS
+
+### 20.1 Agent Loop — Two-Loop Design
+
+```mermaid
+graph TD
+    A[User Input] --> B[AgentHarness.prompt]
+    B --> C[executeTurn]
+    C --> D[before_agent_start hook]
+    D --> E[Run Agent Loop]
+
+    E --> F{Outer Loop}
+    F -->|Has follow-up| G[Inject follow-up messages]
+    G --> H
+
+    F -->|No follow-up| END[agent_end]
+
+    H{Inner Loop}
+    H -->|Has steering| I[Inject steering messages]
+    H -->|No steering| J[Stream LLM Response]
+
+    I --> J
+    J --> K{Has tool calls?}
+    K -->|Yes| L[Execute Tools]
+    L --> M[prepareNextTurn]
+    M --> N[shouldStopAfterTurn?]
+    N -->|Continue| H
+    N -->|Stop| F
+
+    K -->|No| O[Check steering queue]
+    O -->|Has messages| H
+    O -->|No messages| F
+```
+
+### 20.2 Tool Execution Flow
+
+```mermaid
+graph TD
+    A[Assistant Message with Tool Calls] --> B[Extract tool calls]
+    B --> C{Execution Mode?}
+
+    C -->|Sequential| D[Execute one by one]
+    C -->|Parallel| E[Prepare all sequentially]
+
+    D --> F[For each tool call]
+    E --> G[For each tool call]
+
+    F --> H[prepareToolCall]
+    G --> H
+
+    H --> I[Find tool by name]
+    I --> J[prepareArguments]
+    J --> K[validateArguments - TypeBox]
+    K --> L[beforeToolCall hook]
+    L --> M{Blocked?}
+
+    M -->|Yes| N[Return error result]
+    M -->|No| O[Execute tool.execute]
+
+    O --> P[afterToolCall hook]
+    P --> Q[Create ToolResultMessage]
+
+    D --> R[Return results in order]
+    E --> S[Promise.all - concurrent]
+    S --> T[Return results in source order]
+```
+
+### 20.3 Session Tree Structure
+
+```mermaid
+graph TD
+    A[Root Entry] --> B[Message: User]
+    B --> C[Message: Assistant]
+    C --> D[Tool Result]
+    D --> E[Message: User]
+    E --> F[Message: Assistant]
+    F --> G[Compaction Entry]
+    G --> H[Message: User - kept]
+    H --> I[Message: Assistant - kept]
+
+    F --> J[Fork Branch]
+    J --> K[Message: User - alt]
+    K --> L[Message: Assistant - alt]
+    L --> M[Branch Summary]
+
+    style G fill:#f9f,stroke:#333,stroke-width:2px
+    style J fill:#bbf,stroke:#333,stroke-width:2px
+```
+
+### 20.4 Event Flow
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant H as Harness
+    participant A as Agent Loop
+    participant L as LLM Provider
+    participant T as Tools
+
+    U->>H: prompt("text")
+    H->>H: before_agent_start hook
+    H->>A: runAgentLoop()
+
+    A->>A: emit: agent_start
+    A->>A: emit: turn_start
+    A->>A: emit: message_start (user)
+    A->>A: emit: message_end (user)
+
+    A->>L: streamSimple()
+    L-->>A: text_delta events
+    A->>A: emit: message_update
+    L-->>A: done
+    A->>A: emit: message_end (assistant)
+
+    A->>T: executeToolCalls()
+    T->>T: emit: tool_execution_start
+    T->>T: tool.execute()
+    T->>T: emit: tool_execution_end
+    T-->>A: ToolResultMessage
+    A->>A: emit: message_end (tool result)
+
+    A->>A: emit: turn_end
+    A->>A: emit: agent_end
+    A-->>H: return messages
+    H-->>U: AssistantMessage
+```
+
+### 20.5 Extension System
+
+```mermaid
+graph LR
+    A[Extension Runner] --> B[Load Extensions]
+    B --> C[Activate All]
+
+    C --> D[Extension A]
+    C --> E[Extension B]
+    C --> F[Extension C]
+
+    D --> G[registerTool]
+    D --> H[registerCommand]
+    D --> I[on event]
+
+    E --> G
+    E --> H
+    E --> I
+
+    F --> G
+    F --> H
+    F --> I
+
+    G --> J[Agent Tools]
+    H --> K[Slash Commands]
+    I --> L[Event Handlers]
+```
+
+### 20.6 Package Dependencies
+
+```mermaid
+graph LR
+    A[coding-agent] --> B[agent]
+    B --> C[ai]
+    A --> D[tui]
+
+    B --> E[session]
+    B --> F[compaction]
+    B --> G[skills]
+    B --> H[prompt-templates]
+
+    A --> I[tools]
+    A --> J[extensions]
+    A --> K[model-registry]
+
+    C --> L[providers]
+    C --> M[streaming]
+    C --> N[types]
+```
+
+---
+
+## 21. VALIDATION CHECKLIST
+
+Use this checklist to verify your agent implementation matches the Hera architecture.
+
+### 21.1 Core Architecture
+
+- [ ] Agent loop has two-loop design (outer: follow-up, inner: steering + tools)
+- [ ] Agent class wraps loop with state management
+- [ ] Agent harness wraps agent with session, compaction, hooks
+- [ ] Context is immutable (sliced/copied before each turn)
+- [ ] Events are emitted in order (listeners await sequentially)
+
+### 21.2 Message System
+
+- [ ] AgentMessage = LLM messages + custom messages
+- [ ] Custom messages extend via declaration merging
+- [ ] convertToLlm never throws (returns safe fallback)
+- [ ] bashExecution → user message text
+- [ ] CustomMessage → user message
+- [ ] BranchSummary → user message with <summary> wrapper
+- [ ] CompactionSummary → user message with <summary> wrapper
+
+### 21.3 Tool System
+
+- [ ] Tools have name, label, description, parameters (TypeBox schema)
+- [ ] Tools have execute() function
+- [ ] Tool arguments validated via TypeBox
+- [ ] beforeToolCall hook can block execution
+- [ ] afterToolCall hook can override results
+- [ ] Parallel mode: prepare sequentially, execute concurrently
+- [ ] Sequential mode: execute one by one
+- [ ] Tool termination requires ALL results with terminate=true
+
+### 21.4 Session System
+
+- [ ] Sessions are tree-based (not linear log)
+- [ ] Each entry has id and parentId
+- [ ] Session supports branching (fork from any point)
+- [ ] Context building walks tree from root to leaf
+- [ ] Compaction entry marks boundary for old/kept messages
+- [ ] Session writes are batched (flushed at turn_end and agent_end)
+
+### 21.5 Queue System
+
+- [ ] Three queue types: steer, follow-up, next-turn
+- [ ] Steer: inject mid-run (after current tool batch)
+- [ ] Follow-up: process after agent would stop
+- [ ] Next-turn: prepend to next turn's messages
+- [ ] QueueMode: "all" (drain everything) or "one-at-a-time" (oldest only)
+
+### 21.6 Compaction
+
+- [ ] Auto-triggered when context exceeds threshold
+- [ ] reserveTokens: 16384 (for summary prompt + output)
+- [ ] keepRecentTokens: 20000 (recent context to keep)
+- [ ] Summary generated by LLM call
+- [ ] Old messages replaced by summary, recent kept intact
+
+### 21.7 Extension System
+
+- [ ] Extensions have name, description, activate(), deactivate()
+- [ ] Extensions can register tools, commands, shortcuts, flags, providers
+- [ ] Extensions can subscribe to lifecycle events
+- [ ] Extensions can interact with UI (dialogs, notifications, widgets)
+- [ ] Extension runner manages lifecycle (load, activate, emit)
+
+### 21.8 AI Layer
+
+- [ ] Provider abstraction (same API for 20+ providers)
+- [ ] Streaming via EventStream (async iteration)
+- [ ] Support for SSE, WebSocket, auto transport
+- [ ] API key resolution (supports expiring tokens)
+- [ ] Cache retention options (none, short, long)
+
+### 21.9 System Prompt
+
+- [ ] Built dynamically with tools, guidelines, context files
+- [ ] Skills formatted as XML blocks
+- [ ] Project context files injected (AGENTS.md, CLAUDE.md, etc.)
+- [ ] Current date and working directory included
+
+### 21.10 Error Handling
+
+- [ ] Agent loop catches errors and emits failure events
+- [ ] Tool execution errors become error tool results
+- [ ] Streaming errors encoded in message (stopReason: "error")
+- [ ] AbortSignal respected throughout (loop, tools, hooks)
+- [ ] Graceful degradation on provider failures
+
+### 21.11 Security
+
+- [ ] Tool execution sandboxed (cwd-based)
+- [ ] beforeToolCall hook can block dangerous tools
+- [ ] Input validated (TypeBox schemas)
+- [ ] API keys never logged or exposed
+- [ ] Session data persisted securely
+
+---
+
+## 22. CHANGELOG
+
+See [CHANGELOG.md](CHANGELOG.md) for version history.
+
+---
+
+## 23. CONTRIBUTING
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
