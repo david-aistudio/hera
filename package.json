@@ -1,34 +1,47 @@
 {
-  "name": "hera",
-  "version": "1.0.0",
-  "description": "Hera — Complete AI coding agent architecture reference. Build a production-grade coding agent from scratch.",
-  "main": "SKILL.md",
-  "scripts": {
-    "install": "bash install.sh",
-    "install:all": "bash install.sh all"
+  "name": "hera-agent",
+  "version": "2.5.1",
+  "description": "Hera — AI Coding Agent Architecture Reference. Install skill/reference for 18+ AI coding agents.",
+  "main": "index.js",
+  "bin": {
+    "hera": "./bin/hera.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/david-aistudio/hera.git"
+  "scripts": {
+    "test": "echo \"No tests yet\""
   },
   "keywords": [
-    "ai",
-    "agent",
+    "ai-agent",
     "coding-agent",
-    "architecture",
-    "typescript",
-    "llm",
-    "openai",
-    "anthropic",
-    "claude",
+    "claude-code",
     "cursor",
-    "copilot",
-    "pi-agent"
+    "hermes",
+    "opencode",
+    "aider",
+    "agent-architecture",
+    "skill",
+    "reference"
   ],
   "author": "david-aistudio",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/david-aistudio/hera/issues"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/david-aistudio/hera.git"
   },
-  "homepage": "https://github.com/david-aistudio/hera#readme"
+  "homepage": "https://github.com/david-aistudio/hera",
+  "engines": {
+    "node": ">=14"
+  },
+  "files": [
+    "bin/",
+    "SKILL.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    ".cursor/",
+    ".agents/",
+    ".kiro/",
+    "references/",
+    "templates/",
+    "README.md",
+    "LICENSE"
+  ]
 }
