@@ -202,6 +202,7 @@ The installer auto-detects your agent and installs the right config file:
 | `references/opencode-architecture.md` | 8,291 | OpenCode Go agent deep analysis: agent loop (758 lines), 11 providers, 10 tools, permission system, cost tracking |
 | `references/kilocode-architecture.md` | 5,417 | Kilo Code monorepo deep analysis: Agent Manager, auto-generated SDK, gateway pattern, worktree isolation |
 | `references/aider-architecture.md` | 15,320 | Aider deep analysis: 6 edit formats, architect mode (48 lines!), repo map (tree-sitter + PageRank), fuzzy match, reflection loop, linter integration |
+| `references/hermes-architecture.md` | 16,068 | Hermes Agent deep analysis: multi-platform gateway (20+), self-improving skills with curator, provider-agnostic with credential pooling, multi-profile isolation, MCP-native, cron scheduler, kanban work-queue |
 | `references/ecc-patterns.md` | 400 | From ECC: agent harness construction, autonomous loops, self-debugging, hooks, benchmarking |
 | `references/token-optimization.md` | 479 | From RTK + Headroom: 6 compression strategies (command, diff, search, log, live zone, adaptive) |
 | `references/spec-driven-development.md` | 132 | From GSD Core: spec pipeline, multi-agent orchestration, context engineering, state management |
@@ -304,6 +305,7 @@ hera/
 │   ├── opencode-architecture.md    OpenCode deep analysis (8,291 lines)
 │   ├── kilocode-architecture.md    Kilo Code deep analysis (5,417 lines)
 │   ├── aider-architecture.md       Aider deep analysis (15,320 lines)
+│   ├── hermes-architecture.md      Hermes Agent deep analysis (16,068 lines)
 │   ├── ecc-patterns.md             ECC patterns (400 lines)
 │   ├── token-optimization.md       Token optimization (479 lines)
 │   ├── spec-driven-development.md  Spec-driven dev (132 lines)

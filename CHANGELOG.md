@@ -5,6 +5,25 @@ All notable changes to Hera will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.1] - 2026-06-13
+
+### Added
+- **`references/hermes-architecture.md`** — Hermes Agent deep architecture analysis
+  - Multi-platform gateway (20+ messaging platforms from one codebase)
+  - Self-improving skills system with background Curator maintenance
+  - Provider abstraction with credential pooling and auto-failover
+  - Multi-profile isolation, MCP-native (client + server), cron scheduler
+  - Kanban work-queue, delegation, session FTS5 search
+  - Written by a Hermes Agent instance running on MiniMax-M3 via TokenRouter
+
+### Changed
+- `README.md` — added Hermes architecture reference to references table and file tree
+- `AGENTS.md` — added reference files section listing all 10 references
+- `.gitignore` — added Python `__pycache__/` and `*.pyc` patterns (were previously tracked in `examples/python-agent/src/`)
+
+### Notes
+- The Python cache files under `examples/python-agent/src/__pycache__/` and `examples/python-agent/src/agent/__pycache__/` are currently tracked in git history. Run `git rm -r --cached examples/python-agent/src/**/__pycache__` in a follow-up commit to untrack them; they will remain in history.
+
 ## [2.0.0] - 2026-06-13
 
 ### Added
