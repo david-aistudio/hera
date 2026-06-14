@@ -72,7 +72,10 @@ hera/
 **`templates/mcp-client.ts`** (MCP client: HTTP+SSE + stdio transport, multi-session — added 2026-06-13),
 **`templates/mcp-server.ts`** (MCP server: register tools, expose over stdio/HTTP+SSE — added 2026-06-13),
 **`templates/mcp-stdio-sse-bridge.ts`** (production stdio↔SSE bridge with smart text filtering — added 2026-06-13),
-**`templates/mcp-marketplace.ts`** (catalog of 20+ public MCP servers + install/uninstall + Claude CLI config builder — added 2026-06-13)
+**`templates/mcp-marketplace.ts`** (catalog of 20+ public MCP servers + install/uninstall + Claude CLI config builder — added 2026-06-13),
+**`templates/tunnel.ts`** (TunnelManager + state persistence + health check + watchdog — added 2026-06-13),
+**`templates/tunnel-cloudflare.ts`** (Cloudflare Quick Tunnel: binary download + spawn + URL parse — added 2026-06-13),
+**`templates/tunnel-tailscale.ts`** (Tailscale Funnel: daemon mgmt + login detection + Funnel serve — added 2026-06-13)
 
 Python equivalents in `templates/python/` (`minimal_agent_loop.py` etc.)
 **`templates/multi-provider-router.py`** (Python equivalent — added 2026-06-13)
