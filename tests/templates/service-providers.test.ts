@@ -197,7 +197,7 @@ describe("STTRouter", () => {
   it("transcribes with OpenAI format", async () => {
     stt.registerProvider({ ...STT_PROVIDER_CATALOG.openai, apiKey: "sk-1" });
     mockFetch.mockResolvedValueOnce({ ok: true, json: async () => ({ text: "hello world" }) });
-    const buf = new Uint8Array([1, 2, 3]);
+    const buf = Buffer.from([1, 2, 3]);
     const result = await stt.transcribe("openai", { model: "whisper-1", audio: buf });
     expect(result.text).toBe("hello world");
   });
@@ -210,7 +210,7 @@ describe("STTRouter", () => {
         results: { channels: [{ alternatives: [{ transcript: "deep hello", words: [] }] }] },
       }),
     });
-    const buf = new Uint8Array([1, 2, 3]);
+    const buf = Buffer.from([1, 2, 3]);
     const result = await stt.transcribe("deepgram", { model: "nova-3", audio: buf });
     expect(result.text).toBe("deep hello");
     const url = mockFetch.mock.calls[0][0];
@@ -273,7 +273,7 @@ describe("WebSearchRouter", () => {
         results: [{ title: "AI", url: "https://a.com", content: "snippet", published_date: "2026-01-01" }],
       }),
     });
-    const result = await search.search("tavily", "AI", { maxResults: 3 });
+    const result = await search.search("tavily", { query: "AI", maxResults: 3 });
     expect(result.results[0].title).toBe("AI");
     expect(result.results[0].publishedDate).toBe("2026-01-01");
     expect(result.cost).toBe(0.008);
@@ -297,7 +297,7 @@ describe("WebSearchRouter", () => {
       ok: true,
       json: async () => ({ results: [{ title: "S", url: "https://s.com", content: "c" }] }),
     });
-    const result = await search.search("searxng", "test");
+    const result = await search.search("searxng", { query: "test" });
     expect(result.results[0].title).toBe("S");
   });
 });
@@ -317,7 +317,7 @@ describe("WebFetchRouter", () => {
         data: { markdown: "# Hi", metadata: { title: "T", description: "D" } },
       }),
     });
-    const result = await f.fetch("firecrawl", "https://x.com");
+    const result = await f.fetch("firecrawl", { url: "https://x.com" });
     expect(result.title).toBe("T");
     expect(result.content).toBe("# Hi");
     expect(result.cost).toBe(0.002);

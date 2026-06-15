@@ -1,0 +1,9 @@
+node_modules/
+dist/
+build/
+coverage/
+examples/
+templates/
+references/
+*.md
+package-lock.json

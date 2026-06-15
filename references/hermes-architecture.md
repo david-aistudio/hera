@@ -393,7 +393,7 @@ Or `hermes profile use <name>` to set sticky default.
 
 - GitHub: https://github.com/NousResearch/hermes-agent
 - Docs: https://hermes-agent.nousresearch.com/docs
-- Skills hub: `npx skills add david-aistudio/hera` (this very reference is shipped there)
+- Skills hub: `npx skills add ahmdd4vd/hera` (this very reference is shipped there)
 - Companion: `npx graphify @sentropic/graphify` for codebase analysis (what built this reference)
 
 > **Note from the author**: This reference was written by a Hermes Agent instance while running on MiniMax-M3 via TokenRouter. The "self-improving" claim isn't theoretical — filling in 638 graph descriptions across 16 batches earlier today is a direct example of `delegate_task` + skill-driven knowledge work.

@@ -10,7 +10,7 @@
  * - Error rules (text + status matching)
  */
 
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import {
   ProviderRouter,
   filterAvailableKeys,
@@ -18,23 +18,22 @@ import {
   DEFAULT_ERROR_RULES,
   ApiKey,
   ProviderCall,
-  RouterConfig,
 } from "../../templates/minimal-provider-fallback";
 
 function makeKey(id: string, key = `sk-${id}`): ApiKey {
   return { id, key };
 }
 
-function makeFailingCall(status: number, message = "fail"): ProviderCall {
+function _makeFailingCall(status: number, message = "fail"): ProviderCall {
   return async () => {
-    const err: any = new Error(message);
+    const err = new Error(message) as Error & { status: number };
     err.status = status;
     throw err;
   };
 }
 
-function makeSucceedingCall(result: any = { content: [] }): ProviderCall {
-  return async () => result;
+function _makeSucceedingCall(result: { content: unknown[] } = { content: [] }): ProviderCall {
+  return async () => result as any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 describe("filterAvailableKeys", () => {

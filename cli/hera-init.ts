@@ -10,10 +10,14 @@
  * - AGENTS.md with Hera Framework
  * - package.json, tsconfig.json, vitest.config.ts
  * - .env.example with required variables
+ *
+ * Interactive mode: Prompts for project name, description, provider, and features.
+ * Non-interactive: Accepts --name, --desc, --provider flags or uses defaults.
  */
 
 import * as fs from "fs";
 import * as path from "path";
+import * as readline from "readline";
 
 // ============================================================================
 // Config
@@ -32,6 +36,10 @@ interface ProjectConfig {
   };
 }
 
+type PartialConfig = Partial<Omit<ProjectConfig, "features">> & {
+  features?: Partial<ProjectConfig["features"]>;
+};
+
 const DEFAULT_CONFIG: ProjectConfig = {
   name: "my-agent",
   description: "AI coding agent built with Hera Framework",
@@ -44,6 +52,132 @@ const DEFAULT_CONFIG: ProjectConfig = {
     security: true,
   },
 };
+
+// ============================================================================
+// Interactive Prompts (readline-based)
+// ============================================================================
+
+function createPrompter(): readline.Interface {
+  return readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+}
+
+function question(rl: readline.Interface, prompt: string, defaultValue?: string): Promise<string> {
+  const suffix = defaultValue ? ` (${defaultValue})` : "";
+  return new Promise((resolve) => {
+    rl.question(`${prompt}${suffix}: `, (answer) => {
+      resolve(answer.trim() || defaultValue || "");
+    });
+  });
+}
+
+function questionYesNo(rl: readline.Interface, prompt: string, defaultValue: boolean): Promise<boolean> {
+  const suffix = defaultValue ? " [Y/n]" : " [y/N]";
+  return new Promise((resolve) => {
+    rl.question(`${prompt}${suffix}: `, (answer) => {
+      const trimmed = answer.trim().toLowerCase();
+      if (trimmed === "") resolve(defaultValue);
+      else resolve(trimmed === "y" || trimmed === "yes");
+    });
+  });
+}
+
+function questionChoice<T extends string>(
+  rl: readline.Interface,
+  prompt: string,
+  choices: T[],
+  defaultValue: T
+): Promise<T> {
+  const options = choices.map((c) => (c === defaultValue ? `${c} (default)` : c)).join(" / ");
+  return new Promise((resolve) => {
+    rl.question(`${prompt} [${options}]: `, (answer) => {
+      const trimmed = answer.trim().toLowerCase() as T;
+      if (choices.includes(trimmed)) resolve(trimmed);
+      else resolve(defaultValue);
+    });
+  });
+}
+
+async function promptUser(overrides?: PartialConfig): Promise<ProjectConfig> {
+  // Merge features properly: spread default features, then overlay partial overrides
+  const config: ProjectConfig = {
+    ...DEFAULT_CONFIG,
+    ...overrides,
+    features: {
+      ...DEFAULT_CONFIG.features,
+      ...overrides?.features,
+    },
+  };
+
+  // If all values provided via CLI flags, skip interactive prompts
+  const hasAllFlags = overrides?.name && overrides?.description && overrides?.provider;
+  if (hasAllFlags) return config;
+
+  // Check if stdin is a TTY (interactive terminal)
+  const isInteractive = process.stdin.isTTY;
+
+  if (!isInteractive) {
+    // Non-interactive mode: use defaults or CLI args
+    const args = process.argv.slice(2);
+    for (const arg of args) {
+      if (!arg.startsWith("-")) {
+        config.name = arg;
+        break;
+      }
+    }
+    console.log("Non-interactive mode detected. Using defaults.");
+    console.log(`  Project name: ${config.name}`);
+    console.log(`  Description: ${config.description}`);
+    console.log(`  Provider: ${config.provider}`);
+    return config;
+  }
+
+  // Interactive mode
+  const rl = createPrompter();
+
+  try {
+    console.log("🏗  Let's set up your AI coding agent project!\n");
+
+    config.name = await question(rl, "Project name", config.name);
+    config.description = await question(rl, "Description", config.description);
+    config.provider = await questionChoice(
+      rl,
+      "LLM Provider",
+      ["openai", "anthropic", "custom"] as const,
+      config.provider
+    );
+
+    console.log("\nFeatures:");
+    config.features.session = await questionYesNo(
+      rl,
+      "  Enable tree-based sessions?",
+      config.features.session
+    );
+    config.features.compaction = await questionYesNo(
+      rl,
+      "  Enable context compaction?",
+      config.features.compaction
+    );
+    config.features.extensions = await questionYesNo(
+      rl,
+      "  Enable extension system?",
+      config.features.extensions
+    );
+    config.features.security = await questionYesNo(
+      rl,
+      "  Enable security sandboxing?",
+      config.features.security
+    );
+
+    console.log("");
+  } finally {
+    rl.close();
+  }
+
+  return config;
+}
 
 // ============================================================================
 // File Templates
@@ -187,6 +321,7 @@ dist/
 *.log
 .DS_Store
 coverage/
+__pycache__/
 `,
 
   "README.md": (config) => `# ${config.name}
@@ -228,7 +363,7 @@ tests/
 
 ## Built with
 
-- [Hera Framework](https://github.com/david-aistudio/hera) — Architecture reference
+- [Hera Framework](https://github.com/ahmdd4vd/hera) — Architecture reference
 - TypeScript
 - Vitest
 `,
@@ -272,21 +407,79 @@ main().catch(console.error);
 };
 
 // ============================================================================
-// Interactive Prompts
+// CLI Argument Parsing
 // ============================================================================
 
-async function promptUser(): Promise<ProjectConfig> {
-  // In production, use readline or inquirer
-  // For this example, use defaults
-  const config = { ...DEFAULT_CONFIG };
-
-  // Check for command line arguments
+function parseCliArgs(): PartialConfig {
   const args = process.argv.slice(2);
-  if (args.length > 0) {
-    config.name = args[0];
+  const overrides: PartialConfig = {};
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+
+    switch (arg) {
+      case "--name":
+      case "-n":
+        overrides.name = args[++i];
+        break;
+      case "--desc":
+      case "-d":
+        overrides.description = args[++i];
+        break;
+      case "--provider":
+      case "-p":
+        overrides.provider = args[++i] as "openai" | "anthropic" | "custom";
+        break;
+      case "--no-session":
+        overrides.features = { ...(overrides.features ?? {}), session: false };
+        break;
+      case "--no-compaction":
+        overrides.features = { ...(overrides.features ?? {}), compaction: false };
+        break;
+      case "--no-extensions":
+        overrides.features = { ...(overrides.features ?? {}), extensions: false };
+        break;
+      case "--no-security":
+        overrides.features = { ...(overrides.features ?? {}), security: false };
+        break;
+      case "--help":
+      case "-h":
+        console.log(`
+${"\x1b[1m"}hera init — Scaffold a new AI coding agent project${"\x1b[0m"}
+
+Usage:
+  hera init [project-name]             Interactive mode
+  hera init --name my-agent            Specify project name
+  hera init -n my-agent -p openai      Non-interactive with flags
+
+Options:
+  -n, --name <name>          Project name
+  -d, --desc <description>   Project description
+  -p, --provider <provider>  LLM provider (openai | anthropic | custom)
+  --no-session               Disable session system
+  --no-compaction            Disable context compaction
+  --no-extensions            Disable extension system
+  --no-security              Disable security sandboxing
+  -h, --help                 Show this help
+
+Examples:
+  hera init
+  hera init my-agent
+  hera init --name my-agent --provider anthropic
+  hera init -n agent -d "My AI agent" -p openai --no-extensions
+`);
+        process.exit(0);
+        break;
+      default:
+        // Positional argument = project name
+        if (!arg.startsWith("-") && !overrides.name) {
+          overrides.name = arg;
+        }
+        break;
+    }
   }
 
-  return config;
+  return overrides;
 }
 
 // ============================================================================
@@ -316,12 +509,16 @@ async function generateProject(config: ProjectConfig): Promise<void> {
     fs.writeFileSync(fullPath, template(config));
   }
 
-  // Copy templates from hera repo
+  // Copy minimal-*.ts templates from hera repo (skip python/, non-minimal files)
   const templateDir = path.resolve(__dirname, "..", "templates");
   if (fs.existsSync(templateDir)) {
     const templates = fs.readdirSync(templateDir);
     for (const template of templates) {
+      // Only copy minimal-*.ts files, skip python/ directory and non-minimal templates
+      if (!template.startsWith("minimal-") || !template.endsWith(".ts")) continue;
       const src = path.join(templateDir, template);
+      // Skip directories (shouldn't happen with .ts filter, but be safe)
+      if (!fs.statSync(src).isFile()) continue;
       const dest = path.join(projectDir, "src", template.replace("minimal-", ""));
       fs.copyFileSync(src, dest);
     }
@@ -329,6 +526,13 @@ async function generateProject(config: ProjectConfig): Promise<void> {
 
   console.log(`
 ✅ Project "${config.name}" created successfully!
+
+Configuration:
+  Provider: ${config.provider}
+  Session: ${config.features.session ? "enabled" : "disabled"}
+  Compaction: ${config.features.compaction ? "enabled" : "disabled"}
+  Extensions: ${config.features.extensions ? "enabled" : "disabled"}
+  Security: ${config.features.security ? "enabled" : "disabled"}
 
 Next steps:
   cd ${config.name}
@@ -348,7 +552,8 @@ For more information, see README.md
 async function main() {
   console.log("🏗  Hera Init — Scaffold a new AI coding agent project\n");
 
-  const config = await promptUser();
+  const cliOverrides = parseCliArgs();
+  const config = await promptUser(cliOverrides);
   await generateProject(config);
 }
 

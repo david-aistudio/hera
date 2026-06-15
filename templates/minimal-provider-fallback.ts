@@ -54,8 +54,8 @@ export interface ApiKey {
 export type Strategy = "fallback" | "round-robin";
 
 export interface RouterConfig {
-  /** Pool of API keys for this provider. */
-  keys: ApiKey[];
+  /** Pool of API keys for this provider. (Optional here; ProviderRouter constructor takes keys as a separate param.) */
+  keys?: ApiKey[];
   /** Strategy (default: "fallback"). */
   strategy?: Strategy;
   /**

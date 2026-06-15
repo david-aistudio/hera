@@ -1,26 +1,25 @@
-# Hera — AI Coding Agent Architecture Reference
+# Hera — Architecture Review Workflow
 
-## What is Hera?
+## When to Use
 
-Hera is a complete architectural reference for building production-grade AI coding agents. Every detail is verified from the [Pi Agent](https://github.com/earendil-works/pi) source code (62K stars).
+Trigger this workflow when:
+- Building a new AI coding agent from scratch
+- Reviewing agent architecture for correctness
+- Adding new features to an existing agent
 
-## How to Use
+## Steps
 
-1. **Read SKILL.md** — The complete architecture reference
-2. **Follow the implementation guide** — Step-by-step build order
-3. **Use the file reference** — Find any component quickly
+1. **Read SKILL.md** — Get the full architecture reference
+2. **Check focused references** — Use `references/agent-loop-harness.md`, `references/session-and-compaction.md`, etc.
+3. **Use code templates** — Copy from `templates/` as starting points
+4. **Validate** — Run `hera validate` or `npx hera-agent validate` to check compliance
 
-## Key Concepts
+## Validation Checklist
 
-- **Agent Loop**: Two-loop design (outer: follow-up, inner: tool calls + steering)
-- **Agent Class**: Stateful wrapper with queueing (steer, follow-up, next-turn)
-- **Agent Harness**: Orchestration layer with session, compaction, hooks
-- **Session System**: Tree-based storage with branching
-- **Extension System**: Full plugin system with lifecycle hooks
-- **AI Layer**: 20+ provider abstraction with streaming
-
-## Rules
-
-- Always read SKILL.md before making architecture decisions
-- Follow the critical invariants (section 16.3)
-- Avoid the pitfalls (section 17)
+- Agent loop has two loops (outer + inner)
+- Tools have name, description, and execute function
+- Session is tree-based (parentId on nodes)
+- Error handling: tool errors become error results, not exceptions
+- Streaming: AsyncIterable support
+- Security: tool sandboxing, no API key logging
+- Provider fallback chain exists

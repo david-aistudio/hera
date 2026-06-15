@@ -10,7 +10,7 @@ import { execFileSync } from "child_process";
 import * as path from "path";
 
 const ROOT = path.resolve(__dirname, "..");
-const HERA_BIN = path.join(ROOT, "bin", "hera.js");
+const HERA_BIN = path.join(ROOT, "bin", "hera.cjs");
 const HERA_GRAPH_TS = path.join(ROOT, "cli", "hera-graph.ts");
 const HERA_VALIDATE_TS = path.join(ROOT, "cli", "hera-validate.ts");
 
@@ -22,11 +22,12 @@ function runTsx(script: string, args: string[] = []): { stdout: string; stderr: 
       timeout: 30000,
     });
     return { stdout, stderr: "", status: 0 };
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const e = err as { stdout?: Buffer | string; stderr?: Buffer | string; message?: string; status?: number };
     return {
-      stdout: err.stdout?.toString() || "",
-      stderr: err.stderr?.toString() || err.message || "",
-      status: err.status || 1,
+      stdout: typeof e.stdout === 'string' ? e.stdout : (e.stdout?.toString() || ""),
+      stderr: typeof e.stderr === 'string' ? e.stderr : (e.stderr?.toString() || e.message || ""),
+      status: e.status || 1,
     };
   }
 }
@@ -92,6 +93,27 @@ describe("bin/hera.js", () => {
     for (const a of expectedAgents) {
       expect(r.stdout, `help should mention ${a}`).toContain(a);
     }
+  });
+
+  it("--yes flag is documented in help", () => {
+    const r = runTsx(HERA_BIN, ["--help"]);
+    expect(r.stdout).toMatch(/--yes|-y/);
+    expect(r.stdout).toMatch(/CI\/CD/);
+  });
+
+  it("--version-tag flag is documented in help", () => {
+    const r = runTsx(HERA_BIN, ["--help"]);
+    expect(r.stdout).toContain("--version-tag");
+  });
+
+  it("uninstall command is documented in help", () => {
+    const r = runTsx(HERA_BIN, ["--help"]);
+    expect(r.stdout).toContain("uninstall");
+  });
+
+  it("uninstall without agent shows error", () => {
+    const r = runTsx(HERA_BIN, ["uninstall"]);
+    expect(r.stdout + r.stderr).toMatch(/specify an agent|Usage/i);
   });
 });
 

@@ -2,25 +2,19 @@
 
 ## What is Hera?
 
-Hera is a complete architectural reference for building production-grade AI coding agents. Every detail is verified from the [Pi Agent](https://github.com/earendil-works/pi) source code (62K stars).
+Hera is a complete architectural reference for building production-grade AI coding agents, verified from 9 open-source codebases (770K+ combined GitHub stars).
 
-## How to Use
+## Quick Reference
 
-1. **Read SKILL.md** — The complete architecture reference
-2. **Follow the implementation guide** — Step-by-step build order
-3. **Use the file reference** — Find any component quickly
+| Component | Description | Reference File |
+|---|---|---|
+| **Agent Loop** | Two-loop design (outer: follow-up, inner: steering + tools) | `references/agent-loop-harness.md` |
+| **Session System** | Tree-based storage with branching and compaction | `references/session-and-compaction.md` |
+| **AI Providers** | 20+ provider abstraction with streaming and fallback | `references/ai-providers-layer.md` |
 
-## Key Concepts
+## Rules for Antigravity
 
-- **Agent Loop**: Two-loop design (outer: follow-up, inner: tool calls + steering)
-- **Agent Class**: Stateful wrapper with queueing (steer, follow-up, next-turn)
-- **Agent Harness**: Orchestration layer with session, compaction, hooks
-- **Session System**: Tree-based storage with branching
-- **Extension System**: Full plugin system with lifecycle hooks
-- **AI Layer**: 20+ provider abstraction with streaming
-
-## Rules
-
-- Always read SKILL.md before making architecture decisions
-- Follow the critical invariants (section 16.3)
-- Avoid the pitfalls (section 17)
+- Read SKILL.md before making architecture decisions
+- Follow the critical invariants (SKILL.md §16.3)
+- Tool errors become error results, never exceptions
+- Context must be immutable (copy before each turn)

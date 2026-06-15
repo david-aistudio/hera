@@ -17,6 +17,7 @@
 
 import * as fs from "fs";
 import * as path from "path";
+import * as readline from "readline";
 
 const CONFIG_DIR = ".hera";
 const CONFIG_FILE = "providers.json";
@@ -124,21 +125,33 @@ function cmdAdd(id: string, args: string[]): void {
 
   // Interactive prompts if not provided
   if (!baseUrl) {
-    const readline = require("readline");
     const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
     rl.question(`Base URL (e.g. https://api.openai.com/v1/chat/completions): `, (a: string) => {
       baseUrl = a.trim();
-      if (!format) rl.question(`Format [${SUPPORTED_FORMATS.join("|")}]: `, (b: string) => {
-        format = b.trim();
-        if (!apiKey) rl.question(`API key (or "none" for no-auth): `, (c: string) => {
+      if (!format) {
+        rl.question(`Format [${SUPPORTED_FORMATS.join("|")}]: `, (b: string) => {
+          format = b.trim();
+          if (!apiKey) {
+            rl.question(`API key (or "none" for no-auth): `, (c: string) => {
+              apiKey = c.trim();
+              rl.close();
+              finishAdd(id, config, baseUrl, format, apiKey);
+            });
+          } else {
+            rl.close();
+            finishAdd(id, config, baseUrl, format, apiKey);
+          }
+        });
+      } else if (!apiKey) {
+        rl.question(`API key (or "none" for no-auth): `, (c: string) => {
           apiKey = c.trim();
           rl.close();
           finishAdd(id, config, baseUrl, format, apiKey);
         });
-        else { rl.close(); finishAdd(id, config, baseUrl, format, apiKey); }
-      });
-      else if (!apiKey) { rl.question(`API key (or "none" for no-auth): `, (c: string) => { apiKey = c.trim(); rl.close(); finishAdd(id, config, baseUrl, format, apiKey); }); rl.close(); }
-      else { rl.close(); finishAdd(id, config, baseUrl, format, apiKey); }
+      } else {
+        rl.close();
+        finishAdd(id, config, baseUrl, format, apiKey);
+      }
     });
   } else {
     finishAdd(id, config, baseUrl, format, apiKey);

@@ -2,17 +2,24 @@
   "name": "hera-agent",
   "version": "2.10.0",
   "description": "Hera — AI Coding Agent Architecture Reference. Install skill/reference for 18+ AI coding agents.",
-  "main": "index.js",
+  "type": "module",
+  "main": "bin/hera.cjs",
   "bin": {
-    "hera": "./bin/hera.js"
+    "hera": "./bin/hera.cjs"
   },
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "typecheck": "tsc --noEmit",
+    "lint": "eslint cli/ lib/ tests/",
+    "lint:fix": "eslint cli/ lib/ tests/ --fix",
+    "format": "prettier --write 'cli/**/*.ts' 'lib/**/*.ts' 'tests/**/*.ts'",
+    "format:check": "prettier --check 'cli/**/*.ts' 'lib/**/*.ts' 'tests/**/*.ts'",
+    "build": "tsc",
     "graph": "tsx cli/hera-graph.ts",
-    "validate": "tsx cli/hera-validate.ts"
+    "validate": "tsx cli/hera-validate.ts",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm test"
   },
   "keywords": [
     "ai-agent",
@@ -26,33 +33,40 @@
     "skill",
     "reference"
   ],
-  "author": "david-aistudio",
+  "author": "ahmdd4vd",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/david-aistudio/hera.git"
+    "url": "https://github.com/ahmdd4vd/hera.git"
   },
-  "homepage": "https://github.com/david-aistudio/hera",
+  "homepage": "https://github.com/ahmdd4vd/hera",
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "files": [
     "bin/",
+    "cli/",
+    "lib/",
     "SKILL.md",
     "AGENTS.md",
     "CLAUDE.md",
     ".cursor/",
     ".agents/",
     ".kiro/",
+    ".kilo/",
     "references/",
     "templates/",
     "README.md",
     "LICENSE"
   ],
   "devDependencies": {
+    "@eslint/js": "^9.0.0",
     "@types/node": "^22.19.21",
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0",
     "tsx": "^4.22.4",
     "typescript": "^5.9.3",
+    "typescript-eslint": "^8.0.0",
     "vitest": "^3.2.6"
   }
 }

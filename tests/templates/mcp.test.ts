@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { MCPClient, MCPHttpTransport, MCPStdioTransport, type MCPSession } from "../../templates/mcp-client.js";
-import { MCPServer, MCPStdioServerTransport, MCPHttpSSEServerTransport } from "../../templates/mcp-server.js";
-import { MCPMarketplace, DEFAULT_MCP_REGISTRY, type MCPServerEntry } from "../../templates/mcp-marketplace.js";
-import { smartFilterText, defaultMCPFilter, getOrSpawn, registerSession, unregisterSession, sendToChild, isRunning, killBridge } from "../../templates/mcp-stdio-sse-bridge.js";
+import { MCPClient, MCPHttpTransport } from "../../templates/mcp-client.js";
+import { MCPServer } from "../../templates/mcp-server.js";
+import { MCPMarketplace, DEFAULT_MCP_REGISTRY } from "../../templates/mcp-marketplace.js";
+import { smartFilterText, defaultMCPFilter } from "../../templates/mcp-stdio-sse-bridge.js";
 
 // ============================================================
 // MCP SERVER (in-process, no I/O)

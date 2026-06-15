@@ -30,12 +30,11 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: TypeScript typecheck
-        run: npx tsc --noEmit || true
-        continue-on-error: true
+      - name: TypeScript typecheck (strict mode)
+        run: npx tsc --noEmit
 
   lint:
-    name: Lint & Syntax Check
+    name: Lint & Format Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -46,7 +45,7 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
-      - name: Install deps (optional)
+      - name: Install deps
         run: |
           if [ -f package-lock.json ]; then npm ci; else echo "No lockfile — skipping install"; fi
         continue-on-error: true
@@ -55,8 +54,8 @@ jobs:
         run: |
           node -e "const p=require('./package.json'); console.log('✓ package.json valid, version', p.version);"
 
-      - name: Validate bin/hera.js syntax
-        run: node --check bin/hera.js && echo "✓ bin/hera.js syntax OK"
+      - name: Validate bin/hera.cjs syntax
+        run: node --check bin/hera.cjs && echo "✓ bin/hera.cjs syntax OK"
 
       - name: Validate CLI TypeScript files (syntax)
         run: |
@@ -64,6 +63,10 @@ jobs:
             echo "Checking $f"
             npx --yes -p typescript@5 tsc --noEmit --target es2022 --module esnext --moduleResolution bundler --skipLibCheck "$f" 2>&1 | tail -5 || true
           done
+
+      - name: Check Prettier formatting
+        run: npx prettier --check 'cli/**/*.ts' 'lib/**/*.ts' 'tests/**/*.ts'
+        continue-on-error: true
 
       - name: Markdown link check (key files)
         run: |
@@ -91,6 +94,14 @@ jobs:
             echo "::error::Expected at least 8 reference files, found $count"
             exit 1
           fi
+      - name: Check for tracked __pycache__
+        run: |
+          cached=$(git ls-files | grep __pycache__ | wc -l)
+          if [ "$cached" -gt 0 ]; then
+            echo "::error::Found $cached __pycache__ files tracked in git. Remove with: git rm -r --cached '**/__pycache__'"
+            exit 1
+          fi
+          echo "✓ No __pycache__ tracked"
 
   graph:
     name: Graphify Knowledge Graph

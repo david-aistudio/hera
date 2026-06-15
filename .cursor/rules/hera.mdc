@@ -1,34 +1,41 @@
+---
+description: Hera AI Coding Agent Architecture Reference — architecture patterns, implementation guide, and code templates for building production-grade AI coding agents
+globs: **/*
+alwaysApply: false
+---
+
 # Hera — AI Coding Agent Architecture Reference
 
-## What is Hera?
+## Quick Reference
 
-Hera is a complete architectural reference for building production-grade AI coding agents. Every detail is verified from the [Pi Agent](https://github.com/earendil-works/pi) source code (62K stars).
+| Component | Description | Reference File |
+|---|---|---|
+| **Agent Loop** | Two-loop design (outer: follow-up, inner: steering + tools) | `references/agent-loop-harness.md` |
+| **Session System** | Tree-based storage with branching and compaction | `references/session-and-compaction.md` |
+| **AI Providers** | 20+ provider abstraction with streaming and fallback | `references/ai-providers-layer.md` |
+| **Advanced Patterns** | MCP, Skills, Memory, Plugins, Cost Tracking | `references/advanced-patterns.md` |
+| **Token Optimization** | 6 strategies for 60-95% reduction | `references/token-optimization.md` |
 
-## How to Use
+## Key Architecture Decisions
 
-1. **Read SKILL.md** — The complete architecture reference
-2. **Follow the implementation guide** — Step-by-step build order
-3. **Use the file reference** — Find any component quickly
+- **Two-loop agent loop**: Inner loop handles tool calls + steering. Outer loop handles follow-up messages.
+- **Tree-based sessions**: Conversations stored as tree (not linear), enabling branching.
+- **Built-in compaction**: Old messages auto-summarized when context window overflows.
+- **Queue-based steering**: Users inject messages mid-run via steer/follow-up/next-turn queues.
+- **Provider abstraction**: Same API for 20+ providers. Fallback chains for reliability.
 
-## Key Concepts
+## Code Templates
 
-- **Agent Loop**: Two-loop design (outer: follow-up, inner: tool calls + steering)
-- **Agent Class**: Stateful wrapper with queueing (steer, follow-up, next-turn)
-- **Agent Harness**: Orchestration layer with session, compaction, hooks
-- **Session System**: Tree-based storage with branching
-- **Extension System**: Full plugin system with lifecycle hooks
-- **AI Layer**: 20+ provider abstraction with streaming
-
-## Quick Start
-
-```
-Read SKILL.md sections 1-6 for the core architecture.
-Read sections 7-13 for advanced features.
-Read section 16 for the implementation guide.
-```
+28+ copy-paste ready templates in `templates/` covering:
+- Core: Agent loop, tool system, session, provider, harness, extension
+- Infrastructure: Multi-provider router, MCP server/client, TTS/STT/image providers, tunnels
+- Python equivalents in `templates/python/`
 
 ## Rules
 
-- Always read SKILL.md before making architecture decisions
-- Follow the critical invariants (section 16.3)
-- Avoid the pitfalls (section 17)
+- Read SKILL.md before making architecture decisions
+- Follow the critical invariants (SKILL.md §16.3)
+- Avoid the pitfalls (SKILL.md §17)
+- Tool errors become error results, never exceptions
+- Context must be immutable (copy before each turn)
+- `convertToLlm` never throws

@@ -1,11 +1,9 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
-import { writeFileSync, unlinkSync, existsSync } from "fs";
+import { describe, it, expect } from "vitest";
+import { writeFileSync, unlinkSync, readFileSync } from "fs";
 import {
   compareVersions,
   fetchLatestVersion,
   versionChecker,
-  loadUpdateState,
-  saveUpdateState,
   getDefaultDataDir,
   getStatusFile,
   getUpdateDir,
@@ -97,7 +95,7 @@ describe("update state", () => {
   });
 
   it("saves and loads state", () => {
-    const path = "/tmp/test-update-state.json";
+    const _path = "/tmp/test-update-state.json";
     const state: UpdateState = {
       phase: "installing",
       packageName: "x",
@@ -115,7 +113,7 @@ describe("update state", () => {
     // Use a custom path via temp file
     const tmp = `/tmp/test-state-${Date.now()}.json`;
     writeFileSync(tmp, JSON.stringify(state, null, 2));
-    const loaded = JSON.parse(require("fs").readFileSync(tmp, "utf-8"));
+    const loaded = JSON.parse(readFileSync(tmp, "utf-8"));
     expect(loaded).toEqual(state);
     unlinkSync(tmp);
   });

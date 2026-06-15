@@ -2,8 +2,8 @@
 name: hera
 description: "Build production-grade AI coding agents. Complete architecture reference verified from 9 codebases (Pi, Claude Code, ECC, Aider, OpenCode, Kilo Code, GSD, RTK, Headroom) with 770K+ combined GitHub stars. Covers agent loop, tools, sessions, compaction, streaming, hooks, permissions, edit formats, repo map, and every design pattern."
 metadata:
-  author: david-aistudio
-  version: "2.7.0"
+  author: ahmdd4vd
+  version: "2.10.0"
   license: MIT
 ---
 
@@ -2225,7 +2225,7 @@ CI/CD integration via `.github/actions/validate/action.yml`:
 
 ```yaml
 - name: Validate Agent
-  uses: david-aistudio/hera/.github/actions/validate@main
+  uses: ahmdd4vd/hera/.github/actions/validate@main
   with:
     directory: './src'
 ```

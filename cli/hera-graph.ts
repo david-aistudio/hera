@@ -26,9 +26,9 @@ const GRAPH_PATH = path.resolve(process.cwd(), ".graphify/graph.json");
 let PKG_VERSION = "?";
 try {
   const pkgPath = path.resolve(__dirname, "..", "package.json");
-  PKG_VERSION = JSON.parse(require("fs").readFileSync(pkgPath, "utf-8")).version;
+  PKG_VERSION = JSON.parse(fs.readFileSync(pkgPath, "utf-8")).version;
 } catch {
-  PKG_VERSION = "2.7.3";
+  PKG_VERSION = "2.10.0";
 }
 
 const colors = {
@@ -60,8 +60,9 @@ function runGraphify(args: string[]): string {
       stdio: ["ignore", "pipe", "pipe"],
     });
     return out;
-  } catch (err: any) {
-    console.error(`${colors.red}✗ graphify failed:${colors.reset}`, err.message || String(err));
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error(`${colors.red}✗ graphify failed:${colors.reset}`, message);
     process.exit(1);
   }
 }

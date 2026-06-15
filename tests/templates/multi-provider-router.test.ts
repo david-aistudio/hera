@@ -4,10 +4,6 @@ import {
   PROVIDER_CATALOG,
   FORMATS,
   detectFormat,
-  registerTranslator,
-  UsageTracker,
-  DEFAULT_ERROR_RULES,
-  type ProviderConfig,
   type ChatRequest,
 } from "../../templates/multi-provider-router.js";
 
@@ -87,7 +83,6 @@ describe("MultiProviderRouter", () => {
 
   describe("format translation", () => {
     it("translates OpenAI to Claude", () => {
-      let result: unknown;
       // Hack: invoke via internal translator registry
       const req = {
         model: "claude-3",
@@ -248,7 +243,7 @@ describe("MultiProviderRouter", () => {
     });
 
     it("all catalog entries have valid format", () => {
-      for (const [id, p] of Object.entries(PROVIDER_CATALOG)) {
+      for (const [_id, p] of Object.entries(PROVIDER_CATALOG)) {
         expect(["openai", "claude", "gemini", "openai-responses"]).toContain(p.format);
         expect(p.baseUrl).toMatch(/^https?:\/\//);
       }

@@ -4,7 +4,7 @@
 #
 # Usage:
 #   - name: Validate Agent
-#     uses: david-aistudio/hera/.github/actions/validate@main
+#     uses: ahmdd4vd/hera/.github/actions/validate@main
 #     with:
 #       directory: './src'
 
@@ -42,14 +42,16 @@ runs:
       id: validate
       shell: bash
       run: |
-        # Run validation
-        npx tsx ${{ github.action_path }}/../../cli/hera-validate.ts ${{ inputs.directory }} || true
-        
-        # Capture score (parse from output)
-        SCORE=$(npx tsx ${{ github.action_path }}/../../cli/hera-validate.ts ${{ inputs.directory }} 2>&1 | grep -oP 'Score: \K\d+' || echo "0")
-        
+        # Run validation ONCE and capture output
+        OUTPUT=$(npx tsx ${{ github.action_path }}/../../cli/hera-validate.ts ${{ inputs.directory }} 2>&1 || true)
+
+        echo "$OUTPUT"
+
+        # Parse score from captured output (no second run needed)
+        SCORE=$(echo "$OUTPUT" | grep -oP 'Score: \K\d+' || echo "0")
+
         echo "score=$SCORE" >> $GITHUB_OUTPUT
-        
+
         if [ "$SCORE" -ge 80 ]; then
           echo "passed=true" >> $GITHUB_OUTPUT
         else
@@ -64,17 +66,17 @@ runs:
           const score = '${{ steps.validate.outputs.score }}';
           const passed = '${{ steps.validate.outputs.passed }}' === 'true';
           const icon = passed ? '✅' : '❌';
-          
+
           const body = `## ${icon} Hera Validation Report
-          
+
           **Score:** ${score}/100
           **Status:** ${passed ? 'Passed' : 'Failed'}
-          
+
           ${passed ? 'Implementation matches Hera architecture!' : 'Some checks failed. Run `hera validate` locally for details.'}
-          
+
           ---
-          *Validated by [Hera Framework](https://github.com/david-aistudio/hera)*`;
-          
+          *Validated by [Hera Framework](https://github.com/ahmdd4vd/hera)*`;
+
           github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,

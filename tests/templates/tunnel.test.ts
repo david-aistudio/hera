@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { existsSync, unlinkSync } from "fs";
+import { existsSync } from "fs";
 import {
   TunnelManager,
   loadTunnelState,
@@ -282,7 +282,7 @@ describe("TunnelManager", () => {
 
 // === Mock provider for testing ===
 function makeMockProvider(name: string, opts: { publicUrl?: string; running?: boolean } = {}): TunnelProvider & { startCalls: number; stopCalls: number; simulateExit: () => void } {
-  let exitHandlers: Array<() => void> = [];
+  const exitHandlers: Array<() => void> = [];
   const provider = {
     name,
     startCalls: 0,
